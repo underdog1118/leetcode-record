@@ -30,4 +30,11 @@ public class lc383 {
                 magazineLetters.put(r, CurrentCount-1);
             }return true;
         }
+
+    public static void main(String[] args) {
+        lc383 lc = new lc383();
+        System.out.println(lc.canConstruct("asd","bab"));
+
+
+    }
     }
