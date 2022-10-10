@@ -31,6 +31,8 @@ public class lc383 {
             }return true;
         }
 
+
+        // 测试方法， 新建main, 新建class变量， 调用方法并输出
     public static void main(String[] args) {
         lc383 lc = new lc383();
         System.out.println(lc.canConstruct("asd","bab"));
