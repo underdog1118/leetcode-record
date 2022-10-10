@@ -1,5 +1,7 @@
 # Mac
 
+<img src="images/image-20221009175030156.png" alt="image-20221009175030156" style="zoom:30%;" />
+
 #### **1、标题（⌘ + 数字）**
 
 一级标题：***（⌘ + 1）\***
@@ -133,7 +135,6 @@ Shift + Left/Right/Home/End	向左/向右/行头/行尾选择
 Ctrl + Shift + up/down	选择行向上下移动
 
 Ctrl + Shift + F12	切换全屏代码
-
 
 
 
