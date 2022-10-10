@@ -1,7 +1,5 @@
 # Mac
 
-<img src="/Users/jonathan/IdeaProjects/leetcode-record1/images/image-20221009172113763.png" alt="image-20221009172113763" style="zoom:25%;" />
-
 #### **1、标题（⌘ + 数字）**
 
 一级标题：***（⌘ + 1）\***
