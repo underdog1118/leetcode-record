@@ -6,7 +6,7 @@
 
 
 
-<img src="https://cdn.jsdelivr.net/gh/underdog1118/leetcode-record@main//image/202210092120409.png" alt="image-20221009175030156" style="zoom:10%;" />
+<img src="https://cdn.jsdelivr.net/gh/underdog1118/leetcode-record@main//image/202210092120409.png" alt="image-20221009175030156" style="zoom:2%;" />
 
 #### **1、标题（⌘ + 数字）**
 
