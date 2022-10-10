@@ -14,7 +14,11 @@
 
 ...
 
-
+```java
+public static void mani(int m){
+  System.out.println("hello");
+}
+```
 
 六级标题：***（⌘+6）\***
 
@@ -135,8 +139,6 @@ Shift + Left/Right/Home/End	向左/向右/行头/行尾选择
 Ctrl + Shift + up/down	选择行向上下移动
 
 Ctrl + Shift + F12	切换全屏代码
-
-
 
 
 
