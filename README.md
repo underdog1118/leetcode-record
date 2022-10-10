@@ -1,6 +1,6 @@
 # Mac
 
-<img src="images/image-20221009175030156.png" alt="image-20221009175030156" style="zoom:10%;" />
+<img src="https://cdn.jsdelivr.net/gh/underdog1118/leetcode-record@main//image/202210092120409.png" alt="image-20221009175030156" style="zoom:10%;" />
 
 #### **1、标题（⌘ + 数字）**
 
@@ -13,6 +13,8 @@
 四级标题：***（⌘ + 4）\***
 
 ...
+
+
 
 六级标题：***（⌘+6）\***
 
@@ -91,8 +93,6 @@
 ![img](images/v2-1708ab9441f61689b8159ed652e7944b_1440w.png)
 
 #### **17、快速生成表格（⌘ + ⌥ + T）**
-
-![img](../../Desktop/黑马java基础笔记/images/v2-7cfe60be61cafc27cf464937f5fdb4d9_1440w.jpeg)
 
 #### **18、快速打开笔记（⇧ + ⌘ + o）**
 
