@@ -1,6 +1,6 @@
 # Mac
 
-<img src="images/image-20221009175030156.png" alt="image-20221009175030156" style="zoom:30%;" />
+<img src="images/image-20221009175030156.png" alt="image-20221009175030156" style="zoom:10%;" />
 
 #### **1、标题（⌘ + 数字）**
 
