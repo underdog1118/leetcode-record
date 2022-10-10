@@ -1,6 +1,6 @@
 # Mac
 
-[复杂度](https://github.com/underdog1118/leetcode-record/blob/main/notes/Time%20and%20Space%20comlexity.md/"复杂度")
+[复杂度](./notes/Time and Space Complexity.md/"复杂度")
 
 <img src="https://cdn.jsdelivr.net/gh/underdog1118/leetcode-record@main//image/202210092120409.png" alt="image-20221009175030156" style="zoom:10%;" />
 
