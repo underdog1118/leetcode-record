@@ -1,10 +1,12 @@
+package Array.src;
+
 import java.util.HashMap;
 
 
 
 public class lc383 {
         public boolean canConstruct(String ransomNote, String magazine) {
-//        for(char r:ransomNote.toCharArray()){ //加强for循环，遍历ransomNotee里所有char
+//        for(char r:ransomNote.toCharArray()){ //加强for循环，遍历ransomNote里所有char
 //            int index = magazine.indexOf(r);
 //            if(index == -1){ //没有在magazine找到字符r对应的Index
 //                 return false;
