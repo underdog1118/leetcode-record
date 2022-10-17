@@ -1,8 +1,9 @@
+package Array.src;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class lc412 {
-
 
         public List<String> fizzBuzz(int n) {
             List<String> answer = new ArrayList<String>();
