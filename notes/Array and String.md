@@ -21,17 +21,57 @@
 
 ### 2.2 查找元素
 
+##### 1）Linear Search
+
 遍历数组，时间复杂度为O(N)
+
+##### 2)Binary Search
 
 ### 2.3 插入元素
 
-用链表
+用链表 or
+
+```java
+for(int i = k; i > ...; i--){
+  a[i+1] = a[i];
+}
+```
 
 ### 2.4 删除元素
 
 需要1 + （n - 1) 步， 1为删除，n-1为移动其余元素。 O(N) N为array.length
 
+考虑快慢双指针方法
 
+##### 1)删除末尾元素
+
+length --
+
+##### 2)删除首位元素
+
+```java
+int[] nums = new int[]{};
+for(int i = 1; i < nums.length; i++) {
+		nums[i-1] = nums[i];
+}
+length --;
+```
+
+##### 3)删除任意位置
+
+```java
+int[] nums = new int[]{};
+for (int i = m; i < nums.length; i++) {
+  	nums[i-1] = nums[i];
+}
+length--;
+```
+
+### 2.5 In-Place Operations
+
+It is this technique of working directly in the input Array, and *not* creating a new Array, that we call **in-place**. 将space complexity从O(N)变成了O(1).
+
+双指针（快慢指针，左右指针）
 
 ### 3. 字符串
 
