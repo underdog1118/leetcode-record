@@ -71,7 +71,7 @@ length--;
 
 It is this technique of working directly in the input Array, and *not* creating a new Array, that we call **in-place**. 将space complexity从O(N)变成了O(1).
 
-双指针（快慢指针，左右指针）
+双指针（快慢指针，左右指针）, 滑动窗口（left指针在后，right指针在前）
 
 ### 3. 字符串
 
