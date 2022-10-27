@@ -65,7 +65,12 @@ while(left + 1 < right){
             }else if (nums[mid] == target){
                 right = mid; //找左极限， 得到target时候令right = mid, 把区间往左边压
             }
-        }return right; //left为最后一个<target元素，right为第一个>=target元素
+        }
+      if (right == nums.length || nums[right] != target) { //判断target是否存在
+        	return -1;
+      }else{
+      		return right; //left为最后一个<target元素，right为第一个>=target元素
+      }
     }
 ```
 
@@ -84,7 +89,32 @@ while(left + 1 < right){
                 left = mid;  //找到target时候，把区间往右侧压缩， 找最右侧=target的元素
             }
         }
-        return left; //left为最后一个<=target元素，right为第一个>target元素
+        if (left < 0 || nums[left] != target) { //判断索引是否越界和target是否存在
+            return -1;
+        }else{
+            return left; //left为最后一个<=target元素，right为第一个>target元素
+        }
     }
+```
+
+```java
+//应用问题，珂珂吃香蕉
+//1.先定义函数 f(x) 为 关于 x 的函数， f(x)随着x变大而单调递增/单调递减
+//2.在主函数里调用f(x), left, right 二分查找 mid 与 target 比较
+//在f(x) == target的限制下， 得到x的边界值
+int fx(int[] nums, int t){
+}
+//通关判断计算t的范围用来定义left和right的值 [l,r]
+int left = l;
+int right = r;
+while (left < right) {
+  int mid = left + (right - left) / 2;
+  while (left < right) {
+    if (fx(nums, t) < target) { }
+    else if (fx(nums, t) > target) { }
+    else { } // 相等，推动边界
+  }
+  return left // 或者right
+}
 ```
 
