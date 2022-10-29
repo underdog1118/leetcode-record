@@ -75,6 +75,37 @@ It is this technique of working directly in the input Array, and *not* creating 
 
 ### 3. 字符串
 
-
-
 ![image-20221011124842814](images/image-20221011124842814.png)
+
+##### 3.1 比较Compare
+
+1. ==   在java中最好不用，因为会被用来比较两个对象是否为同一个对象，而不是是否相等
+
+2. string.equals( )
+
+##### 3.2 可变性
+
+C++ 可变。 Java中不可变Immutable
+
+##### 3.3 添加
+
+直接用 string += "..."/  Java中很慢，O（n^2)
+
+Solution: 
+
+```java
+//1.把string转变成char array
+s = "xxxxx";
+char[ ] chars = s.toCharArray( );
+...
+return new String(chars)
+```
+
+```java
+//2. StringBuilder
+StringBuilder str = new StringBuilder( );
+str.append("...");
+String s = str.toString();
+
+```
+
