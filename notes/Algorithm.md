@@ -1,12 +1,20 @@
-## 1.
+## 1.Binary Search
 
-![image-20221011002052582](images/image-20221011002052582.png)
+O(logN) 
 
-![image-20221011002102084](images/image-20221011002102084.png)
+Sorted
+
+<img src="images/image-20221107183416041.png" alt="image-20221107183416041" style="zoom: 67%;" />
+
+<img src="images/image-20221011002052582.png" alt="image-20221011002052582" style="zoom: 50%;" />
+
+<img src="images/image-20221011002102084.png" alt="image-20221011002102084" style="zoom:50%;" />
 
 ```java
 int[] nums = new int[]{};
 int target;
+if(nums == null || nums.length == 0) //判断空集
+  return -1;
 //一. 单独找到某个数字
 //1.左闭右闭
 int left = 0;
@@ -118,5 +126,54 @@ while (left < right) {
 }
 ```
 
+在旋转数组中找target, leetcode 153 154
 
+## 2. Sliding Window
+
+```java
+// 大致逻辑 时间复杂度O(N)
+int left = 0, right = 0;
+while (right < s.size()) {
+    // 增大窗口
+    window.add(s[right]);
+    right++;
+    
+    while (window needs shrink) {
+        // 缩小窗口
+        window.remove(s[left]);
+        left++;
+    }
+}
+```
+
+```java
+/* 滑动窗口算法框架 */
+void slidingWindow(string s) {
+    unordered_map<char, int> window;   //HashMap 
+    
+    int left = 0, right = 0;
+    while (right < s.size()) {
+        // c 是将移入窗口的字符
+        char c = s[right];
+        // 增大窗口
+        right++;
+        // 进行窗口内数据的一系列更新
+        ...
+
+        /*** debug 输出的位置 ***/
+        printf("window: [%d, %d)\n", left, right);
+        /********************/
+        
+        // 判断左侧窗口是否要收缩
+        while (window needs shrink) {
+            // d 是将移出窗口的字符
+            char d = s[left];
+            // 缩小窗口
+            left++;
+            // 进行窗口内数据的一系列更新
+            ...
+        }
+    }
+}
+```
 

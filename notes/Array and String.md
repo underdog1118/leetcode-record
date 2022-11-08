@@ -109,3 +109,44 @@ String s = str.toString();
 
 ```
 
+##### 3.4 常用api
+
+```java
+String str = "abc";
+str.length(); //长度
+str.charAt(int index)//获取索引处的字符
+str.toCharArray() //将字符串转换为字符数组返回
+str.substring(int beginIndex. int endIndex)//根据索引截取字符串，左闭右开
+str.replace(oldtarget, newreplacement) //使用新值把字符串的旧值替换掉
+str.split(String regex) //根据传入的规则切割字符串，得到字符串数组返回St
+```
+
+
+
+# 二. LinkedList
+
+### 1. 单链表
+
+<img src="images/image-20221106202017751.png" alt="image-20221106202017751" style="zoom: 50%;" />
+
+所有节点按照顺序排列。 若要查询某个元素，只能从头节点（head node) 开始逐个遍历。 O(n) 。
+
+使用head note代表整个list。
+
+#### 1）add
+
+O(1) time . 不需要移动其他元素
+
+<img src="images/image-20221106203252464.png" alt="image-20221106203252464" style="zoom:50%;" />
+
+#### 2）delete
+
+用cur找next方便，找prev需要从头遍历， time O(N),  space O(1)
+
+<img src="images/image-20221106210538619.png" alt="image-20221106210538619" style="zoom:50%;" />
+
+若要删除head node, 只需要将第二个node赋予成head. 因为head node可以代表整个list
+
+### 2. 双链表
+
+<img src="images/image-20221106202035099.png" alt="image-20221106202035099" style="zoom:50%;" />
