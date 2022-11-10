@@ -125,6 +125,8 @@ str.split(String regex) //根据传入的规则切割字符串，得到字符串
 
 # 二. LinkedList
 
+![image-20221108101136574](images/image-20221108101136574.png)
+
 ### 1. 单链表
 
 <img src="images/image-20221106202017751.png" alt="image-20221106202017751" style="zoom: 50%;" />
@@ -150,3 +152,11 @@ O(1) time . 不需要移动其他元素
 ### 2. 双链表
 
 <img src="images/image-20221106202035099.png" alt="image-20221106202035099" style="zoom:50%;" />
+
+### 3. 循环链表
+
+<img src="images/image-20221110011859652.png" alt="image-20221110011859652" style="zoom: 25%;" />
+
+### 4. 性能分析
+
+<img src="images/image-20221110012937649.png" alt="image-20221110012937649" style="zoom: 50%;" />
