@@ -133,11 +133,25 @@ str.split(String regex) //根据传入的规则切割字符串，得到字符串
 
 所有节点按照顺序排列。 若要查询某个元素，只能从头节点（head node) 开始逐个遍历。 O(n) 。
 
-使用head note代表整个list。
+使用head note代表整个list。一般定义头节点为 哨兵节点（==Sentinel==) ，可以简化插入和删除，不包含任何数据
+
+
 
 #### 1）add
 
 O(1) time . 不需要移动其他元素
+
+```java
+// 如要在 index 处插入 val
+ListNode pred = head;
+for (int i = 0; i < index； i++) {
+    pred = pred.next;   //找到index-1即为 predecessor
+}
+size ++; //添加一个节点
+ListNode toAdd = new ListNode(val); //定义添加节点
+toAdd.next = pred.next;
+pred.next = toAdd;
+```
 
 <img src="images/image-20221106203252464.png" alt="image-20221106203252464" style="zoom:50%;" />
 
@@ -145,18 +159,141 @@ O(1) time . 不需要移动其他元素
 
 用cur找next方便，找prev需要从头遍历， time O(N),  space O(1)
 
+```java
+// 删除 index 处的节点
+ListNode cur = head;
+for(int i = 0; i < index; i++) {
+    cur = cur.next;
+}
+size--;
+cur.next = cur.next.nextt
+```
+
 <img src="images/image-20221106210538619.png" alt="image-20221106210538619" style="zoom:50%;" />
 
 若要删除head node, 只需要将第二个node赋予成head. 因为head node可以代表整个list
+
+#### 3) get
+
+查找的效率比数组低，因为需要从头便利，  O（N)
+
+```java
+// 查询 index 处的value
+ListNode cur = head;
+for (int i = 0; i <= index; i++) {
+    cur = cur.next;
+}
+return cur.val;
+```
+
+
 
 ### 2. 双链表
 
 <img src="images/image-20221106202035099.png" alt="image-20221106202035099" style="zoom:50%;" />
 
+```java
+//初始化双链表
+class DLL {
+    int size;
+    ListNode head, tail;
+    public DLL() {
+        size = 0;
+        head = new ListNode(0);
+        tail = new ListNode(0);
+        head.next = tail;
+        tail.prev = head;       
+    }
+}
+```
+
+
+
+#### 1）add
+
+```java
+//找到需要添加val位置前面的pred和后面的succ, 二者相邻
+ListNode pred, succ;  //predecessor 和 successor
+if (index < size - index) { 	// index离左边近， 从左往右遍历
+    pred = head;
+    for (int i = 0; i < index; i++) { pred = pred.next; }
+    succ = pred.next;
+}else {
+    succ = tail;
+    for (int i = size - 1; i >= index; i--) { succ = succ.prev; }
+    pred = succ.prev;
+}
+size++; //添加新位置
+ListNode toAdd = new ListNode(val); //新节点
+toAdd.prev = pred;
+toAdd.next = succ;
+pred.next = toAdd;
+succ.prev = toAdd;  //四个重要操作， 链接新节点
+```
+
+#### 2）delete
+
+```java
+//找到要删除节点index前后pred和succ。 pred, index, succ
+ListNode prev, succ;
+if (index < size - index) {
+    pred = head;
+    for (int i = 0; i < index; i++) { pred = pred.next; }
+    succ = pred.next.next; //succ在pred后两格
+}else {
+    succ = tail;
+    for (int i = size - 1; i > index; i--) { succ = succ.prev;} //注意此刻i > index 无等号
+    pred = succ.prev.prev;
+}
+size--; //节点减1
+pred.next = succ;
+succ.prev = pred;  //重要的两步
+```
+
+#### 3）get
+
+```java
+//还是判断index离哪侧近
+ListNode cur;
+if (index < size - index) { //从左边开始遍历
+    cur = head;
+    for (int i = 0; i <= index; i++) { cur = cur.next;}
+}else {
+    cur = tail;
+    for (int i = size - 1; i >= index; i--) { cur = cur.prev;}
+}
+return cur.val;
+```
+
+
+
 ### 3. 循环链表
 
-<img src="images/image-20221110011859652.png" alt="image-20221110011859652" style="zoom: 25%;" />
+<img src="images/image-20221110011859652.png" alt="image-20221110011859652" style="zoom: 15%;" />
 
 ### 4. 性能分析
 
-<img src="images/image-20221110012937649.png" alt="image-20221110012937649" style="zoom: 50%;" />
+<img src="images/image-20221110012937649.png" alt="image-20221110012937649" style="zoom: 33%;" />
+
+##### 5. 定义链表
+
+```java
+// Java
+public class ListNote {
+    int val;  //结点的值
+    ListNote next; //下一个结点
+    ListNote prev; //双链表 1 value + 2 links 分别指向前后nodes
+        
+    public ListNote() { } // 1. 无参构造器
+    
+    public ListNote(int val) {
+        this.val = val;   // 2.一个参数的有参构造器
+    }
+    
+    public ListNote(int val, ListNote next) {
+        this.val = val;
+        this.next = next;   // 3. 两个参数
+    }
+}
+```
+
