@@ -133,7 +133,9 @@ str.split(String regex) //根据传入的规则切割字符串，得到字符串
 
 所有节点按照顺序排列。 若要查询某个元素，只能从头节点（head node) 开始逐个遍历。 O(n) 。
 
-使用head note代表整个list。一般定义头节点为 哨兵节点（==Sentinel==) ，可以简化插入和删除，不包含任何数据
+使用head note代表整个list。一般定义头节点为 哨兵节点（==Sentinel==) ，可以简化插入和删除，不包含任何数据,
+
+很多时候偶操作链表时头节点的操作和剩余节点的操作方式不同，添加Sentinel可以使所有操作同步，返回Sentinel.next
 
 
 
@@ -267,6 +269,22 @@ return cur.val;
 
 
 
+#### 4） reverse
+
+```java
+//翻转整个链表head
+ListNode pred = null; 
+ListNode cur = head; //操作CUR，不影响HEAD
+while (cur != null) {
+    ListNode nextCur = cur.next;
+    cur.next = pred;
+    pred = cur;
+    cur = nextCur;
+}
+```
+
+
+
 ### 3. 循环链表
 
 <img src="images/image-20221110011859652.png" alt="image-20221110011859652" style="zoom: 15%;" />
@@ -275,7 +293,7 @@ return cur.val;
 
 <img src="images/image-20221110012937649.png" alt="image-20221110012937649" style="zoom: 33%;" />
 
-##### 5. 定义链表
+### 5. 定义链表
 
 ```java
 // Java
