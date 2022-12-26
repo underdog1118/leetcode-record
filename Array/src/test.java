@@ -1,12 +1,18 @@
 package Array.src;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class test {
     public static void main(String[] args) {
-        String str = "ab cd e";
-        String[] s = str.split(" ");
-        for (int i = 0; i < s.length; i++) {
-            System.out.print(s[i] + ' ');
-        }
-
+        Queue<Integer> queue = new LinkedList<>();
+        System.out.println(queue.peek());
+        queue.offer(1);
+        queue.offer(2);
+        System.out.println(queue.peek());
+        queue.poll();
+        System.out.println(queue.peek());
+        System.out.println(queue.size());
     }
 }

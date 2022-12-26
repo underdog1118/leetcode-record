@@ -25,7 +25,7 @@
 
 遍历数组，时间复杂度为O(N)
 
-##### 2)Binary Search
+##### 2）Binary Search
 
 ### 2.3 插入元素
 
@@ -73,6 +73,10 @@ It is this technique of working directly in the input Array, and *not* creating 
 
 双指针（快慢指针，左右指针）, 滑动窗口（left指针在后，right指针在前）
 
+### 2.6 比较是否相等
+
+Arrays.equals  (int[ ] a, int[ ] b)
+
 ### 3. 字符串
 
 ![image-20221011124842814](images/image-20221011124842814.png)
@@ -98,15 +102,14 @@ Solution:
 s = "xxxxx";
 char[ ] chars = s.toCharArray( );
 ...
-return new String(chars)
+return new String(chars)  //把char数组变成String返回
 ```
 
 ```java
 //2. StringBuilder
-StringBuilder str = new StringBuilder( );
+StringBuilder str = new StringBuilder( );  //一个动态变化的String
 str.append("...");
-String s = str.toString();
-
+String s = str.toString(); //转换成String输出
 ```
 
 ##### 3.4 常用api
@@ -119,6 +122,26 @@ str.toCharArray() //将字符串转换为字符数组返回
 str.substring(int beginIndex. int endIndex)//根据索引截取字符串，左闭右开
 str.replace(oldtarget, newreplacement) //使用新值把字符串的旧值替换掉
 str.split(String regex) //根据传入的规则切割字符串，得到字符串数组返回St
+```
+
+### 4. ArrayList
+
+```java
+//需要返回一个长度不确定的数组时, 动态数组
+ArrayList<Integer> res = new ArrayList<>();
+
+//需要一个数组，其对象是ArrayList<Integer>，即index对应的value可能有多个int组成的集合
+ArrayList<Integer>[] lst = new ArrayList[length];
+//此时不是用int[] lst = new int[length]， 因为它的index只能对应1个int
+
+res.add(Element e)； //增加指定元素到列表尾部
+res.addAll(ArrayList aList);  //将指定集合中的所有元素添加到本集合中
+res.clear();	//从列表中删除所有元素.
+res.remove(int index);	//删除列表中指定位置的元素.
+res.get(int index);		//获取列表中指定位置处的元素.
+res.contains(Object o); //如果列表包含指定元素，返回true
+res.isEmpty() //返回true表示链表中没有任何元素
+res.size()  //返回列表长度（列表包含元素的个数）
 ```
 
 
@@ -175,7 +198,7 @@ cur.next = cur.next.nextt
 
 若要删除head node, 只需要将第二个node赋予成head. 因为head node可以代表整个list
 
-#### 3) get
+#### 3)    get
 
 查找的效率比数组低，因为需要从头便利，  O（N)
 
@@ -311,6 +334,165 @@ public class ListNote {
     public ListNote(int val, ListNote next) {
         this.val = val;
         this.next = next;   // 3. 两个参数
+    }
+}
+```
+
+# 三. Hash Table
+
+### 1.  HashSet
+
+a `set` data structure to store `no repeated values`.  没有重复
+
+通常用于检查一个value是否存在
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // 1. initialize the hash set
+        Set<Integer> hashSet = new HashSet<>();     
+        // 2. add a new key
+        hashSet.add(3);
+        hashSet.add(2);
+        hashSet.add(1);
+        // 3. remove the key
+        hashSet.remove(2);        
+        // 4. check if the key is in the hash set
+        if (!hashSet.contains(2)) {
+            System.out.println("Key 2 is not in the hash set.");
+        }
+        // 5. get the size of the hash set
+        System.out.println("The size of has set is: " + hashSet.size());     
+        // 6. iterate the hash set
+        for (Integer i : hashSet) {
+            System.out.print(i + " ");
+        }
+        System.out.println("are in the hash set.");
+        // 7. clear the hash set
+        hashSet.clear();
+        // 8. check if the hash set is empty
+        if (hashSet.isEmpty()) {
+            System.out.println("hash set is empty now!");
+        }
+    }
+}
+```
+
+
+
+### 2. HashMap
+
+a `map` data structure to store `(key, value)` pairs.
+
+**当我们遇到了要快速判断一个元素是否出现集合里的时候，就要考虑哈希法**。
+
+但是哈希法也是**牺牲了空间换取了时间**，因为我们要使用额外的数组，set或者是map来存放数据，才能实现快速的查找。
+
+如果在做面试题目的时候遇到需要判断一个元素是否出现过的场景也应该第一时间想到哈希法！
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // 1. initialize a hash map
+        Map<Integer, Integer> hashmap = new HashMap<>();
+        // 2. insert a new (key, value) pair
+        hashmap.putIfAbsent(0, 0);
+        hashmap.putIfAbsent(2, 3);
+        // 3. insert a new (key, value) pair or update the value of existed key
+        hashmap.put(1, 1);
+        hashmap.put(1, 2);
+        // 4. get the value of specific key
+        System.out.println("The value of key 1 is: " + hashmap.get(1));
+        // 5. delete a key
+        hashmap.remove(2);
+        // 6. check if a key is in the hash map
+        if (!hashmap.containsKey(2)) {
+            System.out.println("Key 2 is not in the hash map.");
+        }
+        // 7. get the size of the hash map
+        System.out.println("The size of hash map is: " + hashmap.size()); 
+        // 8. iterate the hash map
+        for (Map.Entry<Integer, Integer> entry : hashmap.entrySet()) {
+            System.out.print("(" + entry.getKey() + "," + entry.getValue() + ") ");
+        }
+        System.out.println("are in the hash map.");
+        // 9. clear the hash map
+        hashmap.clear();
+        // 10. check if the hash map is empty
+        if (hashmap.isEmpty()) {
+            System.out.println("hash map is empty now!");
+        }
+    }
+}
+```
+
+#### 1) Design the key
+
+<img src="images/image-20221218004338997.png" alt="image-20221218004338997" style="zoom: 52%;" />
+
+<img src="images/image-20221218004406956.png" alt="image-20221218004406956" style="zoom: 50%;" />
+
+数独游戏9 x 9大方块中有9个3 x 3个小方块
+
+# 四. Queue & Stack
+
+### 1. Queue
+
+==First-in-First-out==
+
+<img src="images/image-20221222221002524.png" alt="image-20221222221002524" style="zoom:50%;" />
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // 1. Initialize a queue.
+        Queue<Integer> q = new LinkedList();
+        // 2. Get the first element - return null if queue is empty.
+        System.out.println("The first element is: " + q.peek());
+        // 3. Push new element.
+        q.offer(5);
+        q.offer(13);
+        q.offer(8);
+        q.offer(6);
+        // 4. Pop an element.
+        q.poll();
+        // 5. Get the first element.
+        System.out.println("The first element is: " + q.peek());
+        // 7. Get the size of the queue.
+        System.out.println("The size is: " + q.size());
+    }
+}
+```
+
+
+
+### 2. Stack
+
+==Last-in-First-out==
+
+<img src="images/image-20221225163036799.png" alt="image-20221225163036799" style="zoom:50%;" />
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // 1. Initialize a stack.
+        Stack<Integer> s = new Stack<>();
+        // 2. Push new element.
+        s.push(5);
+        s.push(13);
+        s.push(8);
+        s.push(6);
+        // 3. Check if stack is empty.
+        if (s.empty() == true) {
+            System.out.println("Stack is empty!");
+            return;
+        }
+        // 4. Pop an element.
+        s.pop();
+        // 5. Get the top element.
+        System.out.println("The top element is: " + s.peek());
+        // 6. Get the size of the stack.
+        System.out.println("The size is: " + s.size());
     }
 }
 ```

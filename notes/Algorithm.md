@@ -1,3 +1,57 @@
+## **leetcode常见
+
+#### 1) Design class类型
+
+```java
+class Function {
+    //先在外部定义变量类型
+    HashMap<Integer, Integer> map;
+    int[] nums;
+    Random random;
+    public Function() { //构造器 Instructor
+        //在构造器内初始化
+        map = new HashMap<>();
+        nums = new int[100];
+        random = new Random();
+    }
+    public boolean add(int k) { //类里的method
+        ...
+    }
+    ...
+}
+
+//调用类时
+Function fuc = new Function(); //用构造器定义一个类的instance实例
+fuc.add(5); //调用类内部的方法
+```
+
+#### 2) List<List<...>>
+
+```java
+//需要返回List<List<String>>时， 意为以字符串数组组成的数组
+// 1. 用map.vaules()放在ArrayList里返回 。  lc : 49/249
+HashMap<String, List<String>> map = new HashMap<>(); //可以这样定义map
+for (String s : strings) {
+    String newS = convert(s);  //转变
+    map.putIfAbsent(newS, new ArrayList()); //空则放入一个ArrayList初始化
+    map.get(newS).add(s);  //把s归类放到对应的newS-key的数组ArrayList-value中去
+}
+return new ArrayList(map.values()); //把map值全输出并放在AL中，即是要求的返回模式
+//定义一个方法convert把String转换成某一种统一格式， 一般可以用字符做差的方法
+
+// 2.定义一个相同格式的res, 然后返回  lc : 3sum/4sum
+List<List<String>> res = new ArrayList<>();
+//直接添加3次
+res.add("ab"); 
+res.add("cd"); 
+res.add("ef"); 
+//或者一次性添加
+res.add(new ArrayList<String>(Arrays.asList("ab", "cd", "ef")));
+return res;
+```
+
+
+
 ## 1.Binary Search
 
 O(logN) 
@@ -193,6 +247,75 @@ void slidingWindow(string s, string t) {
 }
 ```
 
+#### * Rabin-Karp （extend)
+
+```java
+int L;  //数字位数 8333  L=4
+int R;  //进制  10进制 R=10
+int RL = Math.pow(R, L-1); // R*(L-1) 用于删除首位
+// 1.数字末位添加
+num = num * R + addVal;  // 8333 * 10 + 5 = 83335
+// 2.首位数字删除
+num = num - removeVal * RL;  // 8333 - 8 * 10^3 = 333
+```
+
+```java
+// Rabin-Karp 指纹字符串查找算法
+int rabinKarp(String txt, String pat) {
+    // 位数
+    int L = pat.length();
+    // 进制（只考虑 ASCII 编码）
+    int R = 256;
+    // 取一个比较大的素数作为求模的除数
+    long Q = 1658598167;
+    // R^(L - 1) 的结果
+    long RL = 1;
+    for (int i = 1; i <= L - 1; i++) {
+        // 计算过程中不断求模，避免溢出  R ^ (L - 1)
+        RL = (RL * R) % Q; 
+    }
+    // 计算模式串的哈希值，时间 O(L)
+    long patHash = 0;
+    for (int i = 0; i < pat.length(); i++) {
+        patHash = (R * patHash + pat.charAt(i)) % Q;
+    }
+    
+    // 滑动窗口中子字符串的哈希值
+    long windowHash = 0;
+    
+    // 滑动窗口代码框架，时间 O(N)
+    int left = 0, right = 0;
+    while (right < txt.length()) {
+        // 扩大窗口，移入字符
+        windowHash = ((R * windowHash) % Q + txt.charAt(right)) % Q;
+        right++;
+
+        // 当子串的长度达到要求
+        if (right - left == L) {
+            // 根据哈希值判断是否匹配模式串
+            if (windowHash == patHash) {
+                // 当前窗口中的子串哈希值等于模式串的哈希值
+                // 还需进一步确认窗口子串是否真的和模式串相同，避免哈希冲突
+                if (pat.equals(txt.substring(left, right))) {
+                    return left;
+                }
+            }
+            // 缩小窗口，移出字符
+            windowHash = (windowHash - (txt.charAt(left) * RL) % Q + Q) % Q;
+            // X % Q == (X + Q) % Q 是一个模运算法则
+            // 因为 windowHash - (txt[left] * RL) % Q 可能是负数
+            // 所以额外再加一个 Q，保证 windowHash 不会是负数
+            left++;
+        }
+    }
+    // 没有找到模式串
+    return -1;
+}
+
+```
+
+
+
 ## 3. Reverse Linked List
 
 ```java
@@ -316,4 +439,15 @@ public int[] result() {
     return res;
 }
 ```
+
+## 5. nSum
+
+```java
+// 2Sum 用hashmap 找 target - nums[i], 不在就把nums[i]存进map
+// 3Sum 先排序。 固定一个k， 相向移动双指针 i = k + 1, j = nums.length - 1 直到i < j不成立
+// 4Sum 先排序。 固定一个m， 往右移动n = m + 1, 相向移动双指针 i = n + 1, j = nums.length - 1
+// 该类问题需要注意去重: if (k > 0 && nums[k] == nums[k-1]) {continue;}
+```
+
+## 6. Bucket Sort 桶排序
 
