@@ -103,6 +103,7 @@ s = "xxxxx";
 char[ ] chars = s.toCharArray( );
 ...
 return new String(chars)  //把char数组变成String返回
+return new String(chars, left, right)  // 把chars里index（left,right)作为string返回
 ```
 
 ```java
@@ -116,12 +117,15 @@ String s = str.toString(); //转换成String输出
 
 ```java
 String str = "abc";
+String s = "5";
 str.length(); //长度
 str.charAt(int index)//获取索引处的字符
 str.toCharArray() //将字符串转换为字符数组返回
 str.substring(int beginIndex. int endIndex)//根据索引截取字符串，左闭右开
 str.replace(oldtarget, newreplacement) //使用新值把字符串的旧值替换掉
 str.split(String regex) //根据传入的规则切割字符串，得到字符串数组返回St
+str.contains("a") //判断是否含有某个字符串， 不能输入'a'字符形式
+int num = Integer.valueOf(s);  // num = 5, 把数字字符串转变为对应的数字
 ```
 
 ### 4. ArrayList
@@ -466,6 +470,19 @@ public class Main {
 
 
 
+#### 1.1） Deque 双端队列 Java
+
+|                    | Queue                  | Deque                           |
+| :----------------- | :--------------------- | ------------------------------- |
+| 添加元素到队尾     | add(E e) / offer(E e)  | addLast(E e) / offerLast(E e)   |
+| 取队首元素并删除   | E remove() / E poll()  | E removeFirst() / E pollFirst() |
+| 取队首元素但不删除 | E element() / E peek() | E getFirst() / E peekFirst()    |
+| 添加元素到队首     | 无                     | addFirst(E e) / offerFirst(E e) |
+| 取队尾元素并删除   | 无                     | E removeLast() / E pollLast()   |
+| 取队尾元素但不删除 | 无                     | E getLast() / E peekLast()      |
+
+
+
 ### 2. Stack
 
 ==Last-in-First-out==
@@ -496,4 +513,24 @@ public class Main {
     }
 }
 ```
+
+
+
+# 五. Binary Tree
+
+### 1) DFS : depth-first-search 深度优先遍历
+
+**这里前中后，其实指的就是中间节点的遍历顺序**，只要大家记住 前中后序指的就是中间节点的位置就可以了。
+
+看如下中间节点的顺序，就可以发现，中间节点的顺序就是所谓的遍历方式。 递归/迭代
+
+- 前序遍历：中左右
+- 中序遍历：左中右
+- 后序遍历：左右中
+
+<img src="images/image-20230104155808279.png" alt="image-20230104155808279" style="zoom:40%;" />
+
+### 2）BFS: breadth-first-search 广度优先遍历
+
+层次遍历（迭代）一般用队列来实现
 

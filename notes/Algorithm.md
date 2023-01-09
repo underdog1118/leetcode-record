@@ -47,6 +47,9 @@ res.add("cd");
 res.add("ef"); 
 //或者一次性添加
 res.add(new ArrayList<String>(Arrays.asList("ab", "cd", "ef")));
+//只添加一个
+res.add(new ArrayList("ab"));
+res.add(new ArrayList<Integer>());
 return res;
 ```
 
@@ -391,7 +394,7 @@ public ListNode swapPairs(ListNode head) {
 ## 4. PreSum and Diff
 
 ```java
-// preSum 前缀和数组，长度需要比原数组大1方便计算. 
+// preSum 前缀和数组，长度需要比原数组大1方便计算. （放入一个默认的0初始数据）
 // 主要适用的场景是原始数组不会被修改的情况下，频繁查询某个区间的累加和
 // 前缀和数组
 private int[] prefix;
@@ -450,4 +453,254 @@ public int[] result() {
 ```
 
 ## 6. Bucket Sort 桶排序
+
+## 7. Monotonic Stack & Queue
+
+<img src="images/image-20221229023833460.png" alt="image-20221229023833460" style="zoom:20%;" />
+
+```java
+//M stack : 从左往右看，找第一个能看到的比自己高的人
+//两个循环,但其实是O(n).总共有 n 个元素，每个元素都被 push 入栈了一次，而最多会被 pop 一次，没有任何冗余操作。
+int[] nextGreaterElement(int[] nums) {
+    int n = nums.length;
+    // 存放答案的数组
+    int[] res = new int[n];
+    Stack<Integer> s = new Stack<>(); 
+    // 倒着往栈里放
+    for (int i = n - 1; i >= 0; i--) {
+        // 判定个子高矮
+        while (!s.isEmpty() && s.peek() <= nums[i]) {
+            // 矮个起开，反正也被挡着了。。。
+            s.pop();
+        }
+        // nums[i] 身后的更大元素
+        res[i] = s.isEmpty() ? -1 : s.peek();
+        s.push(nums[i]);
+    }
+    return res;
+}
+```
+
+```java
+// M Queue
+class MonotonicQueue {
+// 双链表，支持头部和尾部增删元素 , 也可以用双端队列Deque<Integer> dq = new LinkedList<>();
+// 维护其中的元素自尾部到头部单调递增
+private LinkedList<Integer> maxq = new LinkedList<>();
+
+// 在尾部添加一个元素 n，维护 maxq 的单调性质
+public void push(int n) {
+    // 将前面小于自己的元素都删除
+    while (!maxq.isEmpty() && maxq.getLast() < n) {
+        maxq.pollLast();
+    }
+    maxq.addLast(n);
+}
+```
+
+## 
+
+## 8. Traverse binary tree
+
+#### 1) 前序
+
+```java
+// 1.前序 Pre-Order
+class Solution {
+    /* 1 动态规划思路 */
+    // 定义：输入一个节点，返回以该节点为根的二叉树的前序遍历结果
+    public List<Integer> preorderTraversal(TreeNode root) {
+        LinkedList<Integer> res = new LinkedList<>();
+        if (root == null) {
+            return res;
+        }
+        // 前序遍历结果特点：第一个是根节点的值，接着是左子树，最后是右子树
+        res.add(root.val);
+        res.addAll(preorderTraversal(root.left));
+        res.addAll(preorderTraversal(root.right));
+        return res;
+    }
+
+    /* 2 回溯算法思路 */
+    LinkedList<Integer> res = new LinkedList<>();
+    // 返回前序遍历结果
+    public List<Integer> preorderTraversal2(TreeNode root) {
+        traverse(root);
+        return res;
+    }
+    // 二叉树遍历函数
+    void traverse(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        // 前序遍历位置
+        res.add(root.val);
+        traverse(root.left);
+        traverse(root.right);
+    }
+}
+
+// 3 迭代，用栈。 遍历顺序：中-左-右， 入栈顺序：中-右-左
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new LinkedList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop(); //弹出中节点
+            if (node != null) {  
+                res.add(node.val);
+                stack.push(node.right);  //先放右
+                stack.push(node.left);  //再放左，左先弹出
+            }   
+        }
+        return res;
+    }
+}
+```
+
+#### 2）中序
+
+```java
+// 2.中序 In-Order
+class Solution {
+    /* 1 动态规划思路 */
+    // 定义：输入一个节点，返回以该节点为根的二叉树的中序遍历结果
+    public List<Integer> inorderTraversal(TreeNode root) {
+        LinkedList<Integer> res = new LinkedList<>();
+        if (root == null) {
+            return res;
+        }
+        res.addAll(inorderTraversal(root.left));
+        res.add(root.val);
+        res.addAll(inorderTraversal(root.right));
+        return res;
+    }
+
+    /* 2 回溯算法思路 */
+    LinkedList<Integer> res = new LinkedList<>();
+
+    // 返回前序遍历结果
+    public List<Integer> inorderTraversal2(TreeNode root) {
+        traverse(root);
+        return res;
+    }
+
+    // 二叉树遍历函数
+    void traverse(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        traverse(root.left);
+        // 中序遍历位置
+        res.add(root.val);
+        traverse(root.right);
+    }
+}
+
+// 3 迭代。 遍历顺序: 左-中-右 入栈顺序： 左-右
+public List<Integer> inorderTraversal(TreeNode root) {
+    Stack<TreeNode> stack = new Stack<>();
+    List<Integer> res = new LinkedList<>();
+    TreeNode curr = root;  //指针
+    while (!stack.isEmpty() || curr != null) {
+        while (curr != null) {
+            stack.push(curr);
+            curr = curr.left;  //一直添加直到最左最小的node， 此时curr = null
+        }
+        curr = stack.pop();
+        res.add(curr.val);
+        curr = curr.right;
+    }
+    return res;
+}
+```
+
+#### 3） 后序
+
+```java
+// 3. 后序 Post-Order
+class Solution {
+    /* 1 动态规划思路 */
+    // 定义：输入一个节点，返回以该节点为根的二叉树的后序遍历结果
+    public List<Integer> postorderTraversal(TreeNode root) {
+        LinkedList<Integer> res = new LinkedList<>();
+        if (root == null) {
+            return res;
+        }
+        // 后序遍历结果特点：先是左子树，接着是右子树，最后是根节点的值
+        res.addAll(postorderTraversal(root.left));
+        res.addAll(postorderTraversal(root.right));
+        res.add(root.val);
+        return res;
+    }
+
+    /* 2 回溯算法思路 */
+    LinkedList<Integer> res = new LinkedList<>();
+    // 返回后序遍历结果
+    public List<Integer> postorderTraversal2(TreeNode root) {
+        traverse(root);
+        return res;
+    }
+    // 二叉树遍历函数
+    void traverse(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        traverse(root.left);
+        traverse(root.right);
+        // 后序遍历位置
+        res.add(root.val);
+    }
+}
+
+// 3. 迭代。 前序类似，翻转输出。 遍历顺序 左-右-中 入栈顺序：中-左-右 出栈顺序：中-右-左， 最后翻转结果
+public List<Integer> postorderTraversal(TreeNode root) {
+    List<Integer> res = new LinkedList<>();
+    Stack<Integer> reverseRes = new Stack<>();  //顺序是左右中，先用中右左接住
+    Stack<TreeNode> stack = new Stack<>();
+    stack.push(root);
+    while (!stack.isEmpty()) {
+        TreeNode node = stack.pop(); //弹出中节点
+        if (node != null) {  
+            reverseRes.push(node.val);
+            stack.push(node.left);  //先放左
+            stack.push(node.right);  //后方右，先弹出
+        }   
+    }
+    while (!reverseRes.isEmpty()){  //翻转成左右中输出
+        res.add(reverseRes.pop());
+    }
+    return res;
+
+}
+```
+
+#### 4） 层次遍历 
+
+```java
+// 4. 层次遍历 Level-Order BFS
+// 输入一棵二叉树的根节点，层序遍历这棵二叉树
+public void levelTraverse(TreeNode root) {
+    if (root == null) return;
+    Queue<TreeNode> q = new LinkedList<>();
+    q.offer(root);
+
+    // 从上到下遍历二叉树的每一层
+    while (!q.isEmpty()) {
+        int sz = q.size();
+        // 从左到右遍历每一层的每个节点
+        for (int i = 0; i < sz; i++) {
+            TreeNode cur = q.poll();
+            // 将下一层节点放入队列
+            if (cur.left != null) {
+                q.offer(cur.left);
+            }
+            if (cur.right != null) {
+                q.offer(cur.right);
+            }
+        }
+    }
+}
+```
 
