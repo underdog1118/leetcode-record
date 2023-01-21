@@ -50,6 +50,8 @@ res.add(new ArrayList<String>(Arrays.asList("ab", "cd", "ef")));
 //只添加一个
 res.add(new ArrayList("ab"));
 res.add(new ArrayList<Integer>());
+//添加res指定index处元素
+res.get(index).add(100);
 return res;
 ```
 
@@ -90,7 +92,7 @@ while (left <= ight){
 int left = 0;
 int right = nums.length;
 while (left < right){  
-  int mid = left + (right - left/2;   //防止overflow
+  int mid = left + (right - left)/2;   //防止overflow
   if(nums[mid] < target){
     left = mid + 1;
   }else if(nums[mid] > target){
@@ -702,5 +704,47 @@ public void levelTraverse(TreeNode root) {
         }
     }
 }
+```
+
+```java
+// dfs模拟bfs
+List<Integer> res = new ArrayList<>();
+public List<Integer> levelOrder(TreeNode root) {
+    if (root == null) {return res;}
+    dfsAsBfs(root, 0); //从depth = 0开始
+    return res;
+}
+public void dfsAsBfs(TreeNode root, int depth) {
+    if (root == null) {return;}
+    if (depth == res.size()) {  //关键：判断是否为分割点， 此处开始对res的操作
+        res.add(root.val);
+    }
+    
+    dfsAsBfs(root.left, depth + 1); //先左再右，能找到从左侧看的所有层的第一个元素
+    dfsAsBfs(root.right, depth + 1); //depth++进行下一次递归
+    
+    // 最后两行可以替换为： 原版的回溯，depth++用完后再-- (其实不用depth--. 这里的depth不会再被用到了)
+        depth++;
+        recurBfs(root.left, depth);
+        recurBfs(root.right, depth);
+        //depth--;
+    // 如果depth不是该方法的内部参数，而是global变量在外部， 则需要--
+    }
+}
+```
+
+## 9. Compare Tree
+
+```java
+//比较两棵树是否相等
+public boolean isSameTree(TreeNode n1, TreeNode n2) {
+    if (n1 == null || n2 == null) {
+        return n1 == n2;   //两个null, true; 一个null, false
+    }
+   	return n1.val == n2.val && isSameTree(n1.left, n2.left) && isSameTree(n1.right, n2.right);
+}
+
+//若比较是否对称, 最后改成
+	return n1.val == n2.val && isSymmetric(n1.left, n2.right) && isSymmetric(n1.right,n2.left);
 ```
 
