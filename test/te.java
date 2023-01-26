@@ -1,8 +1,27 @@
 package test;
 
+import java.util.Objects;
+
 public class te {
   private int age;
   private char c;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    te te = (te) o;
+    return age == te.age && c == te.c;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(age, c);
+  }
 
   public te(int age, char c) {
     this.age = age;
