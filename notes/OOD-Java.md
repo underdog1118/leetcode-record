@@ -42,3 +42,4 @@ public boolean equals(Object o) {
 只需要对子类（concrete class 没有子类的类)进行test， 包含它所继承的父类方法的test，父类不用重复test
 
 <img src="images/image-20230126002049305.png" alt="image-20230126002049305" style="zoom:40%;" />
+
