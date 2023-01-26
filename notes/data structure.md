@@ -27,6 +27,8 @@
 
 ##### 2）Binary Search
 
+O(log2N)
+
 ### 2.3 插入元素
 
 用链表 or
@@ -126,6 +128,7 @@ str.replace(oldtarget, newreplacement) //使用新值把字符串的旧值替换
 str.split(String regex) //根据传入的规则切割字符串，得到字符串数组返回St
 str.contains("a") //判断是否含有某个字符串， 不能输入'a'字符形式
 int num = Integer.valueOf(s);  // num = 5, 把数字字符串转变为对应的数字
+int num = Integer.parseInt(s) //同上
 ```
 
 ### 4. ArrayList
