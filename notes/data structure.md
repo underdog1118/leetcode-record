@@ -79,7 +79,21 @@ It is this technique of working directly in the input Array, and *not* creating 
 
 Arrays.equals  (int[ ] a, int[ ] b)
 
-### 3. 字符串
+### 2.7 二维数组
+
+```java
+//遍历二维数组
+int[][] nums;
+for (int i = 0; i < nums.length; i++) {  //行数
+    for (int j = 0; j < nums[i].length; j++) {  //某一行的列数
+        nums[i][j].....
+    }
+}
+```
+
+
+
+### 3. String
 
 ![image-20221011124842814](images/image-20221011124842814.png)
 
@@ -127,8 +141,18 @@ str.substring(int beginIndex. int endIndex)//根据索引截取字符串，左�
 str.replace(oldtarget, newreplacement) //使用新值把字符串的旧值替换掉
 str.split(String regex) //根据传入的规则切割字符串，得到字符串数组返回St
 str.contains("a") //判断是否含有某个字符串， 不能输入'a'字符形式
+    
 int num = Integer.valueOf(s);  // num = 5, 把数字字符串转变为对应的数字
 int num = Integer.parseInt(s) //同上
+//把其他类型的数据转换成string
+String str = String.valueOf(1); // 1 -> "1"
+
+char[] arr  = {"b","c","a"};
+//直接把数组转换成字符串形式
+// 1.使用String.valueOf()
+String str = String.valueOf(arr); // arr -> "bca"
+// 2.使用String的构造器
+String str = new String(arr); 
 ```
 
 ### 4. ArrayList
@@ -149,6 +173,48 @@ res.get(int index);		//获取列表中指定位置处的元素.
 res.contains(Object o); //如果列表包含指定元素，返回true
 res.isEmpty() //返回true表示链表中没有任何元素
 res.size()  //返回列表长度（列表包含元素的个数）
+    
+// iterator() 迭代器
+res.add(1);
+res.add(2);
+Iterator<Integer> it = res.iterator() //获取res的迭代器
+//迭代器 it 的两个基本操作是 next 、hasNext 和 remove。
+//调用 it.next() 会返回迭代器的下一个元素，并且更新迭代器的状态。
+//调用 it.hasNext() 用于检测集合中是否还有元素。
+//调用 it.remove() 将迭代器返回的元素删除。
+while (it.hasNext()) {
+    System.out.println(it.next());
+}
+```
+
+### 5.  List<List<...>>
+
+```java
+//需要返回List<List<String>>时， 意为以字符串数组组成的数组
+// 1. 用map.vaules()放在ArrayList里返回 。  lc : 49/249
+HashMap<String, List<String>> map = new HashMap<>(); //可以这样定义map
+for (String s : strings) {
+    String newS = convert(s);  //转变
+    map.putIfAbsent(newS, new ArrayList()); //空则放入一个ArrayList初始化
+    map.get(newS).add(s);  //把s归类放到对应的newS-key的数组ArrayList-value中去
+}
+return new ArrayList(map.values()); //把map值全输出并放在AL中，即是要求的返回模式
+//定义一个方法convert把String转换成某一种统一格式， 一般可以用字符做差的方法
+
+// 2.定义一个相同格式的res, 然后返回  lc : 3sum/4sum
+List<List<String>> res = new ArrayList<>();
+//直接添加3次
+res.add("ab"); 
+res.add("cd"); 
+res.add("ef"); 
+//或者一次性添加
+res.add(new ArrayList<String>(Arrays.asList("ab", "cd", "ef")));
+//只添加一个
+res.add(new ArrayList("ab"));
+res.add(new ArrayList<Integer>());
+//添加res指定index处元素
+res.get(index).add(100);
+return res;
 ```
 
 
@@ -471,7 +537,7 @@ public class Main {
 }
 ```
 
-
+<img src="images/7191.1647175386.jpg" alt="Time and space complexity of queues. Source: Devopedia 2022." style="zoom:50%;" />
 
 #### 1.1） Deque 双端队列 Java
 
@@ -561,14 +627,165 @@ public class Main {
 
 ​	二叉搜索树是一个有数值的有序树
 
-- 若它的左子树不空，则左子树上所有结点的值均小于它的根结点的值；
-- 若它的右子树不空，则右子树上所有结点的值均大于它的根结点的值；
+- 若它的左子树不空，则左子树上所有结点的值均 <= 它的根结点的值；
+- 若它的右子树不空，则右子树上所有结点的值均 >= 它的根结点的值；
 - 它的左、右子树也分别为二叉排序树
 
+==中序遍历==在BST中会得到一个==升序==的结果， 所以很常用
+
 <img src="images/image-20230113130449139.png" alt="image-20230113130449139" style="zoom:35%;" />
+
+```java
+void BST(TreeNode root, int target) {
+    if (root.val == target)
+        // 找到目标，做点什么
+    if (root.val < target) 
+        BST(root.right, target);
+    if (root.val > target)
+        BST(root.left, target);
+}
+```
+
+
 
 ### 6）Balanced Binary Tree 平衡二叉搜索树
 
 它是一棵空树或它的左右两个子树的高度差的绝对值不超过1，并且左右两个子树都是一棵平衡二叉树。
 
 <img src="images/image-20230113130810808.png" alt="image-20230113130810808" style="zoom:40%;" />
+
+# 六. Priority Queue & Heap
+
+==A priority queue is an abstract data type (ADT), while a Heap is a data structure==
+
+用数组/链表实现PQ时，tc和sc只能O(1)/O(N) (或者反过来）;   用Heap实现PQ可以使tc和sc都为O(logN)， 取得最大/最小元素的tc为O(1).  ==Heap的底层是数组最合适==
+
+### 1) Max/Min Heap
+
+==最小堆：1. 必定是完全二叉树 ； 2. 每个节点的val <= 子节点们的val==
+
+==最大堆：1. 必定是完全二叉树 ； 2. 每个节点的val >= 子节点们的val==
+
+<img src="images/image-20230217021912808.png" alt="image-20230217021912808" style="zoom:40%;" />
+
+```java
+// 父节点的索引
+int parent(int root) {
+    return root / 2;
+}
+// 左孩子的索引
+int left(int root) {
+    return root * 2;
+}
+// 右孩子的索引
+int right(int root) {
+    return root * 2 + 1;
+}
+
+//上述情况是二叉堆从index = 1开始的情况
+
+//如果是在一个数组中构建二叉堆index从0开始， 则是如下算法：
+在一个完全二叉树中，编号为i的节点的左儿子编号为2i+1，右儿子编号为2i+2，父节点编号为(i-1)/2。
+```
+
+<img src="images/image-20230217235616849.png" alt="image-20230217235616849" style="zoom:40%;" />
+
+### 2) Swim & Sink
+
+```java
+// swim上浮 （max heap)
+private void swim(int x) {
+    // 如果浮到堆顶，就不能再上浮了
+    while (x > 1 && less(parent(x), x)) {
+        // 如果第 x 个元素比上层大
+        // 将 x 换上去
+        swap(parent(x), x);
+        x = parent(x);
+    }
+}
+
+// sink下沉 （max heap)
+private void sink(int x) {
+    // 如果沉到堆底，就沉不下去了
+    while (left(x) <= size) {
+        // 先假设左边节点较大
+        int max = left(x);
+        // 如果右边节点存在，比一下大小
+        if (right(x) <= size && less(max, right(x)))
+            max = right(x);
+        // 结点 x 比俩孩子都大，就不必下沉了
+        if (less(max, x)) break;
+        // 否则，不符合最大堆的结构，下沉 x 结点
+        swap(x, max);
+        x = max;
+    }
+}
+```
+
+### 3) Insertion & Deletion
+
+```java
+// 注意： PQ从index 1开始, 而不是0
+//insert 方法先把要插入的元素添加到堆底的最后，然后让其上浮到正确位置,
+public void insert(Key e) {
+    size++;
+    // 先把新元素加到最后
+    pq[size] = e;
+    // 然后让它上浮到正确的位置
+    swim(size);
+}
+
+//delete 方法先把堆顶元素 A 和堆底最后的元素 B 对调，然后删除 A，最后让 B 下沉到正确位置。
+public Key delete(Key e) {
+    // 最大堆的堆顶就是最大元素
+    Key max = pq[1]; //删除最大元素并返回其值
+    // 把这个最大元素换到最后，删除之
+    swap (1, size);
+    pq[size] = null;
+    size--;
+    // 让 pq[1] 下沉到正确位置
+    sink(1);
+    return max;
+}
+
+至此，一个优先级队列就实现了，插入和删除元素的时间复杂度为 O(logK)，K 为当前二叉堆（优先级队列）中的元素总数。因为我们时间复杂度主要花费在 sink 或者 swim 上，而不管上浮还是下沉，最多也就树（堆）的高度，也就是 log 级别。
+```
+
+### 4) Java中的heap
+
+Java里的heap默认是==升序的最小堆==，可直接用pq定义
+
+```java
+//默认最小堆
+PriorityQueue<Integer> heap = new PriorityQueue<>();
+//入堆
+heap.add(1);
+//出堆
+heap.poll();
+heap.remove;
+//大小
+heap.size();
+
+// 创建pq时，其元素根据指定的比较器（Comparator) 排序。
+// public PriorityQueue(Comparator<? super E> comparator)
+PriorityQueue<Integer> heap = new PriorityQueue<>((n1,n2)->n1-n2)); //最小堆，如果n1小于n2，将返回一个负数，这意味着n1小于n2，并将n1移动到堆的顶部
+
+//最大堆实现：
+PriorityQueue<Integer> heap = new PriorityQueue<>((n1,n2)->n2-n1)); 
+//或者
+PriorityQueue<Integer> heap = new PriorityQueue<>(Comparator.reverseOrder())；
+
+//还可以放数组，比较每个数组index 0处的大小，最小堆。  lc378， 253
+PriorityQueue<int[]> heap = new PriorityQueue<>((n1,n2)->n1[0]-n2[0])); 
+//这段用了lambda表达式，完整版应该是：
+PriorityQueue<int[]> heap = new PriorityQueue<>(new Comparator<int[]>() {
+    @Override
+    public int compare(int[] n1, int[] n2) {
+        return n1[0] - n2[0];
+    }
+});
+
+//排序也可以用lambda, 比如只把数组按照某一index处的数字从小到大排序：
+Arrays.sort(array, (n1,n2)->n1[0]-n2[0]); 
+```
+
