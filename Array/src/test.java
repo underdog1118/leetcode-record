@@ -1,6 +1,7 @@
 package Array.src;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -8,10 +9,13 @@ import java.util.Stack;
 public class test {
     public static void main(String[] args) {
         test lc = new test();
-        int[] s = new int[]{1,1};
-        for (int i = 0; i < s.length; i++) {
-        }
 
+        String s = "c";
+        String target = "abd";
+        System.out.println(target.contains(s));
+        char[] c= new char[]{'a','b','c','d'};
+        int[] nums = new int[]{1,2,3};
+        Arrays.sort(nums, (n1,n2)->n2-n1);
     }
 
 

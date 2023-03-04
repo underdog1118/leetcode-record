@@ -240,3 +240,16 @@ if (point instanceof Point3D) {  //只有在instanceof成立时才能转换
 ## 10)
 
 A parameter is a variable in the declaration of a function. An argument is the value of this variable that gets passed to the function.
+
+## 11） Combine interface and abstract classes to suit the problem
+
+```
+An interface > one abstract class > concrete subclasses 
+
+An interface > one high level abstract class > multiple lower level abstract classes > concrete subclasses 
+
+One abstract class > concrete subclasses
+
+One interface > concrete subclasses
+```
+

@@ -47,6 +47,9 @@ public class lc258 {
   }
 
   public int right_bound (int[] nums, int target) { //找存在数字的右边界
+    if (nums[0] > target || nums[nums.length-1] < target) { //判断target是否存在
+      return -1;
+    }
     int left = 0;
     int right = nums.length;  //左闭右开
     while (left < right) {
@@ -59,11 +62,11 @@ public class lc258 {
         left = mid + 1;
       }
     }
-    if (left - 1 < 0 || nums[left - 1] != target) { //判断索引是否越界和target是否存在
-      return -1;
-    }else{
+//    if (left ==  0 || nums[left - 1] != target) { //判断索引是否越界和target是否存在,被最开始的判断替代
+//      return -1;
+//    }else{
       return left - 1; //left为第一个>target元素，left-1为最后一个<=target元素,即右边界
-    }
+//    }
   }
 
 }

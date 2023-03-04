@@ -75,9 +75,19 @@ It is this technique of working directly in the input Array, and *not* creating 
 
 双指针（快慢指针，左右指针）, 滑动窗口（left指针在后，right指针在前）
 
-### 2.6 比较是否相等
+### 2.6 常用Arrays. API
 
-Arrays.equals  (int[ ] a, int[ ] b)
+```java
+Arrays.equals(int[] a, int[] b);
+Arrays.fill(int[] num, int newLength) //复制制定数组的指定长度，并返回一个新数组
+Arrays.copyOf()
+    
+Arrays.sort(int[] a);
+//排序也可以用lambda, 比如只把数组按照某一index处的数字从小到大排序：
+Arrays.sort(array, (n1,n2)->n1[0]-n2[0]); 
+```
+
+
 
 ### 2.7 二维数组
 
@@ -126,6 +136,7 @@ return new String(chars, left, right)  // 把chars里index（left,right)作为st
 //2. StringBuilder
 StringBuilder str = new StringBuilder( );  //一个动态变化的String
 str.append("...");
+str.deleteCharAt(num); //删除索引处字符
 String s = str.toString(); //转换成String输出
 ```
 
@@ -173,6 +184,7 @@ res.get(int index);		//获取列表中指定位置处的元素.
 res.contains(Object o); //如果列表包含指定元素，返回true
 res.isEmpty() //返回true表示链表中没有任何元素
 res.size()  //返回列表长度（列表包含元素的个数）
+res.set(index, num)  //把index处的数字替换成num
     
 // iterator() 迭代器
 res.add(1);
@@ -215,6 +227,17 @@ res.add(new ArrayList<Integer>());
 //添加res指定index处元素
 res.get(index).add(100);
 return res;
+
+//注意：若在某个递归方法中，需要把某个List<String> partOfRes 添加到结果res中记录，
+//不能直接 res.add(partOfRes), 因为这样会给res添加对partOfRes的reference(饮用)， 该值在后续的
+//循环迭代中会被继续修改从而出现错误。应该每次添加到res时创建一个新的partOfRes副本： (lc46)
+res.add(new ArrayList(partOfRes)); 
+
+//如果是：
+List<String> track = new LinkedList<>(); //不能用removeLast()
+//必须是
+LinkedList<String> track = new LinkedList<>();
+track.removeLast(); //事先定义LinkedList才能调用的API
 ```
 
 
@@ -475,25 +498,22 @@ public class Main {
         hashmap.put(1, 1);
         hashmap.put(1, 2);
         // 4. get the value of specific key
-        System.out.println("The value of key 1 is: " + hashmap.get(1));
+        hashmap.get(1);
         // 5. delete a key
         hashmap.remove(2);
         // 6. check if a key is in the hash map
         if (!hashmap.containsKey(2)) {
-            System.out.println("Key 2 is not in the hash map.");
         }
         // 7. get the size of the hash map
-        System.out.println("The size of hash map is: " + hashmap.size()); 
+        hashmap.size(); 
         // 8. iterate the hash map
         for (Map.Entry<Integer, Integer> entry : hashmap.entrySet()) {
             System.out.print("(" + entry.getKey() + "," + entry.getValue() + ") ");
         }
-        System.out.println("are in the hash map.");
         // 9. clear the hash map
         hashmap.clear();
         // 10. check if the hash map is empty
         if (hashmap.isEmpty()) {
-            System.out.println("hash map is empty now!");
         }
     }
 }
@@ -586,6 +606,25 @@ public class Main {
 
 
 # 五. Binary Tree
+
+```java
+//定义一棵树
+public class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    
+    TreeNode () {}  
+    TreeNode (int val) { this.val = val; }
+    TreeNode (int val, TreeNode left, TreeNode right) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+```
+
+
 
 ### 0）高度和深度
 
@@ -762,7 +801,7 @@ PriorityQueue<Integer> heap = new PriorityQueue<>();
 heap.add(1);
 //出堆
 heap.poll();
-heap.remove;
+heap.remove();
 //大小
 heap.size();
 

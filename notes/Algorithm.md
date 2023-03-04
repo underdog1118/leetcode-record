@@ -34,6 +34,14 @@ int max = ...;
 int num = rand.nextInt(max);
 ```
 
+#### 3）long
+
+```java
+//Java生成long型注意：
+long num = (long) k * n;  //后面进行了乘法计算，需要加上(long)转型
+long num2 = 1000000000L; //末尾加上L！！
+```
+
 
 
 ## 1.Binary Search
@@ -159,6 +167,15 @@ while(left + 1 < right){
 ```
 
 <img src="images/image-20230226175307830.png" alt="image-20230226175307830" style="zoom: 33%;" />
+
+```java
+// 上述两种找左右边界最后的判断是否存在该target，也可以在开始的时候就判断，最后就不用再判断直接return即可
+if (nums[0] > target || nums[nums.length-1] < target) {
+    return -1;
+}
+```
+
+
 
 ```java
 //应用问题，珂珂吃香蕉
@@ -450,9 +467,7 @@ public int[] result() {
 // 该类问题需要注意去重: if (k > 0 && nums[k] == nums[k-1]) {continue;}
 ```
 
-## 6. Bucket Sort 桶排序
-
-## 7. Monotonic Stack & Queue
+## 6. Monotonic Stack & Queue
 
 <img src="images/image-20221229023833460.png" alt="image-20221229023833460" style="zoom:20%;" />
 
@@ -498,7 +513,7 @@ public void push(int n) {
 
 ## 
 
-## 8. Traverse binary tree
+## 7. Traverse binary tree
 
 #### 1) 前序
 
@@ -729,7 +744,7 @@ public void dfsAsBfs(TreeNode root, int depth) {
 }
 ```
 
-## 9. Compare Tree
+## 8. Compare Tree
 
 ```java
 //比较两棵树是否相等
@@ -744,7 +759,7 @@ public boolean isSameTree(TreeNode n1, TreeNode n2) {
 	return n1.val == n2.val && isSymmetric(n1.left, n2.right) && isSymmetric(n1.right,n2.left);
 ```
 
-## 10) Sort
+## 9. Sort
 
 假定在待排序的记录序列中，存在多个具有相同的关键字的记录，若经过排序，这些记录的相对次序保持不变，即在原序列中，A1=A2，且A1在A2之前，而在排序后的序列中，A1仍在A2之前，则称这种排序算法是稳定的；否则称为不稳定的。
 
@@ -797,6 +812,9 @@ class Solution {
 
         for (int k = 0; k < r - l + 1; k++) {  //排序完的temp放到nums相对应的位置里
             nums[l + k] = temp[k];
+        }
+//        for (int k = l; k <= r; k++) {  另一种写法
+//            nums[k] = temp[k-l];
         }
     }
 }
@@ -1041,7 +1059,7 @@ class Solution {
 
 
 
-## 11) LCA (lowest common ancestor)
+## 10. LCA (lowest common ancestor)
 
 **如果一个节点能够在它的左右子树中分别找到 `p` 和 `q`，则该节点为 `LCA` 节点**。
 
@@ -1088,7 +1106,7 @@ class Solution {
     }
 ```
 
-## 12）top K
+## 11.top K
 
 对于 topk 问题：==最大堆求topk小，最小堆求 topk 大==。
 
@@ -1108,3 +1126,149 @@ public int topKth(int[] nums, int k) {
 }
 ```
 
+## 12. Backtracking
+
+```java
+//回溯算法的一个特点，不像动态规划存在重叠子问题可以优化，回溯算法就是纯暴力穷举，复杂度一般都很高
+result = []
+def backtrack(路径, 选择列表):
+    if 满足结束条件:
+        result.add(路径)
+        return
+    
+    for 选择 in 选择列表:
+        做选择
+        backtrack(路径, 选择列表)
+        撤销选择
+```
+
+<img src="images/5.jpg" alt="img" style="zoom:33%;" />
+
+#### 1) Permutation 排列
+
+```java
+// 全排列（无重不可复选） ：使用used数组记录，不用swap的方法，好理解。 无论哪种，时间复杂度都不可能低于 O(N!)，因为穷举整棵决策树是无法避免的。
+// tc : O(N*N!) 每次添加结果到res需要新建List需要O(N), 要添加O(N!)次
+//sc: O(N) （我们不计算仅用于return output的空间，因此忽略输出数组res) track装满N个，然后回溯减小
+class Solution {
+    List<List<Integer>> res = new LinkedList<>();
+    public List<List<Integer>> permute(int[] nums) {
+        List<Integer> track = new ArrayList<>(); //追踪当前路径
+        boolean[] used = new boolean[nums.length]; //记录在回溯过程中已经添加到路径的值(不可用)
+        backtrack(nums, track, used);
+        return res;
+    }
+
+    public void backtrack(int[] nums, List<Integer> track, boolean[] used) {
+        //终止条件: track路径中记录了所有nums中的元素，当前已走完的结果加到res中
+        if (track.size() == nums.length) {
+            //*重点：不能直接加track，因为会在后续被改变。创建一个新的track的Arraylist副本
+            res.add(new ArrayList(track));
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            if (used[i]) { //遇到已添加的节点，继续找下一个
+                continue;
+            }
+            //当前节点加入track
+            track.add(nums[i]);
+            used[i] = true;
+            //进行加入当前节点后的下一轮回溯
+            backtrack(nums, track, used);
+            //当前i结束，返回上一层，并标记成unused
+            track.remove(track.size()-1);
+            used[i] = false;
+        }
+    }
+}
+```
+
+#### 2) Combination 组合 （Subsets 子集)
+
+```java
+// 无重不可复选
+// tc : O(N*2^N) 在每个子集的末尾最多复制N的长度列表。总共有2^N个子集。
+// sc : O(N) track最大到装N个数字，然后会in-place回溯减少再增大 （我们不计算仅用于return output的空间，因此忽略输出数组res）
+class Solution {
+    List<List<Integer>> subRes = new LinkedList<>();
+    List<List<Integer>> combinRes = new LinkedList<>();
+    public List<List<Integer>> subsets(int[] nums) {
+        List<Integer> track = new LinkedList<>(); //可以定义在方法外
+        backtrack(nums,track, 0);
+        return res;
+    }
+
+    public void backtrack(int[] nums, List<Integer> track, int index) {
+       // 1.子集： 每轮添加路径数组到结果数组中
+        subRes.add(new LinkedList(track)); 
+       // 2.组合 ： k个数字的组合，只要长度为k的
+        if (track.size() == k) {
+            combinRes.add(new LinkedList(track));
+        }
+        
+        //for循环遍历数组nums
+        for (int i = index; i < nums.length; i++) {
+            //做选择，将选择添加到路径数组中
+            track.add(nums[i]);
+            //回溯，继续向数组中下一个数字遍历
+            backtrack(nums,track, i+1);  //*** 注意是i+1而不是index+1 ***
+            //撤销选择，将选择从路径中删除
+            track.remove(track.size()-1);
+        }
+    }
+}
+```
+
+#### 3) 重复不可复选剪枝
+
+```java
+// 排列/组合有重复元素时，去重思路一致
+// 1.排序,相同的元素紧邻方便后续判断
+Arrays.sort(nums);
+// 2.新增used数组记录元素使用情况
+boolean[] used = new boolean[nums.length];
+// 3.剪枝, 控制相同元素的出现顺序是唯一的 [1,2',2'',2'''] : 2->2'-2''
+for (int i .....) {
+    if (i > 0 && nums[i-1] == nums[i] && !used[i-1]) {
+        continue;
+    }
+}
+
+// 或者组合也可以不用used判断： lc90
+for (int i = index; i < nums.length; i++) {
+    if (i > index && nums[i] == nums[i-1]) {  //前一相同的元素已经用过
+        continue;
+    }
+}
+```
+
+#### 4) 无重复可复选
+
+```java
+// 1. 组合/子集问题回溯算法框架 
+void backtrack(int[] nums, int start) {
+    // 回溯算法标准框架
+    for (int i = start; i < nums.length; i++) {
+        // 做选择
+        track.addLast(nums[i]);
+        // 注意参数
+        backtrack(nums, i);  // *** 不用i+1， 代表着当前元素可以在下次重复使用 ***
+        // 撤销选择
+        track.removeLast();
+    }
+}
+
+// 2. 排列问题回溯算法框架  *** 删除所有used数组的去重逻辑 ***
+void backtrack(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+        // 做选择
+        track.addLast(nums[i]);
+        backtrack(nums);
+        // 撤销选择
+        track.removeLast();
+    }
+}
+```
+
+![image-20230309182029735](images/image-20230309182029735.png)
