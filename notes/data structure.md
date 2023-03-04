@@ -126,6 +126,7 @@ return new String(chars, left, right)  // 把chars里index（left,right)作为st
 //2. StringBuilder
 StringBuilder str = new StringBuilder( );  //一个动态变化的String
 str.append("...");
+str.deleteCharAt(num); //删除索引处字符
 String s = str.toString(); //转换成String输出
 ```
 
@@ -173,6 +174,7 @@ res.get(int index);		//获取列表中指定位置处的元素.
 res.contains(Object o); //如果列表包含指定元素，返回true
 res.isEmpty() //返回true表示链表中没有任何元素
 res.size()  //返回列表长度（列表包含元素的个数）
+res.set(index, num)  //把index处的数字替换成num
     
 // iterator() 迭代器
 res.add(1);
@@ -762,7 +764,7 @@ PriorityQueue<Integer> heap = new PriorityQueue<>();
 heap.add(1);
 //出堆
 heap.poll();
-heap.remove;
+heap.remove();
 //大小
 heap.size();
 

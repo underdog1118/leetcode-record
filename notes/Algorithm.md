@@ -161,6 +161,15 @@ while(left + 1 < right){
 <img src="images/image-20230226175307830.png" alt="image-20230226175307830" style="zoom: 33%;" />
 
 ```java
+// 上述两种找左右边界最后的判断是否存在该target，也可以在开始的时候就判断，最后就不用再判断直接return即可
+if (nums[0] > target || nums[nums.length-1] < target) {
+    return -1;
+}
+```
+
+
+
+```java
 //应用问题，珂珂吃香蕉
 //1.先定义函数 f(x) 为 关于 x 的函数， f(x)随着x变大而单调递增/单调递减
 //2.在主函数里调用f(x), left, right 二分查找 mid 与 target 比较
@@ -797,6 +806,9 @@ class Solution {
 
         for (int k = 0; k < r - l + 1; k++) {  //排序完的temp放到nums相对应的位置里
             nums[l + k] = temp[k];
+        }
+//        for (int k = l; k <= r; k++) {  另一种写法
+//            nums[k] = temp[k-l];
         }
     }
 }
