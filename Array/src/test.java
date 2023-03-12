@@ -15,7 +15,7 @@ public class test {
         System.out.println(target.contains(s));
         char[] c= new char[]{'a','b','c','d'};
         int[] nums = new int[]{1,2,3};
-        Arrays.sort(nums, (n1,n2)->n2-n1);
+
     }
 
 
