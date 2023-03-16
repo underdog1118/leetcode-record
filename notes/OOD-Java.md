@@ -253,3 +253,21 @@ One abstract class > concrete subclasses
 One interface > concrete subclasses
 ```
 
+## 12) Generics (Parametric polymophism) 泛型
+
+```java
+public class List<T> {
+    private T[] elements;
+
+    public void add(T element) {
+        // 添加元素的代码
+    }
+
+    public T get(int index) {
+        // 获取元素的代码
+    }
+}
+在这个示例中，泛型类型参数 T 可以被任何数据类型替换，我们可以使用这个泛型列表类存储任何类型的数据，而不需要在每次使用时进行类型转换或者类型检查。
+```
+
+​	
