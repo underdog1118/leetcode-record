@@ -118,7 +118,7 @@ public class Child extends Parent {
 }
 ```
 
-## 5） Abstract, Interface
+## 5) Abstract, Interface
 
 <img src="images/image-20230126002049305.png" alt="image-20230126002049305" style="zoom:40%;" />
 
@@ -271,3 +271,225 @@ public class List<T> {
 ```
 
 ​	
+
+```java
+// how Java compiles generic placeholders (占位符) and wildcards（通配符 "*" "?"）
+§ All placeholders and wildcards are replaced with either Object (if unbounded) or the bound class (if bounded) 
+    
+ <T> compiles as Object 
+ <T extends AbstractAnimal> compiles as AbstractAnimal
+```
+
+## 13）I/O
+
+##### 0) 传入args参数
+
+```java
+1.进入terminal，其下有main.java文件
+2.输入 java main.java arg1 arg2 arg3 //输入了3个参数，空格间隔开
+2.1 或者在intellij中选中文件点Run->Edit Configurations->手动输入parameters: arg1; arg2; arg3
+```
+
+<img src="images/image-20230329114441587.png" alt="image-20230329114441587" style="zoom:50%;" />
+
+
+
+```java
+//1.导包
+import java.util.Scanner;
+//2. scanner
+Scanner sc = new Scanner(System.in);
+//3. 传参
+int num = sc.nextInt();
+```
+
+##### 1）
+
+==所有命令行(command line)参数都作为字符串(string)传递，您需要将它们转换为有效的格式==
+
+##### 2）java中的input/output需要time & memory
+
+==Stream oriented== -- IO
+
+steam(流)是一段数据序列 a sequence of data
+
+##### 3) BASIC FILE I/O STEPS
+
+1. Create variables for input and output streams
+
+2. Try to read/write a file line by line
+
+3. Catch exceptions
+
+4. Finally, close streams and clean up
+
+##### 4) BufferReader
+
+Reads text from a character-input stream, **buffering characters** to provide efficient reading of characters, arrays, and lines.
+
+##### 5) TRY WITH RESOURCES
+
+Automatically closes the reader (or writer) 
+
+No need to set reader to null outside try-catch-finally 
+
+No need for a finally block to close the reader
+
+##### 6) FileWriter
+
+把读取的内容写入一个新文件中
+
+Instead of BufferedReader and FileReader -> **BufferedWriter with FileWriter** 
+
+Instead of reader.readLine() -> **writer.write(“contents”)** 
+
+Still need to catch same exceptions
+
+Still need to close stream in finally block unless using try with resources
+
+##### 7) NIO
+
+```java
+// Read / write all lines in a file at once
+try {
+	Path in = Paths.get(“somefile.csv”); 
+    Path out = Paths.get(“somefile_out.csv”);
+	List<String> lines = Files.readAllLines(in);
+	Files.write(out, lines); 
+} catch (NoSuchFileException nsf) {
+	// handle the exception 
+} catch (IOException ioe) {
+	// handle the exception 
+}
+```
+
+## 14) Regex 正则
+
+![image-20230331014744365](images/image-20230331014744365.png)
+
+```java
+Pattern re1 = Pattern.compile("(a|b)b*"));
+re1.matcher(<something>).mathches()  -> true or false
+  //re1.matcher(<someString>) returns an instance of Matcher
+//也可以写成：
+Matcher m = re1.matcher(<something>);
+m.mathches();
+
+§ matches() – does the entire input string match the pattern exactly?
+§ lookingAt() – does the pattern occur at the start of the input string? 
+§ find() – does the pattern occur anywhere in the input string?
+    
+//用m.find()iterate through every occurrence of the pattern
+while (m.find()) {
+	System.out.println(test.substring(m.start(), m.end()); 
+}
+```
+
+```java
+//Common String methods using RegEx 
+String.split(<regex>) - Splits a String into an array at every occurrence of <regex> 
+
+String.replaceAll(<regex>, replace_with) - Replaces the first occurrence of <regex> with replace_with
+```
+
+```java
+在CSV文件中，字段之间通常是由逗号分隔的。但是，如果某个字段本身包含逗号，则可以使用引号将该字段括起来，例如："field1","field2, with comma","field3"。
+
+在这种情况下，读取CSV文件时，需要使用引号来解析包含逗号的字段。因此，在这段代码中，使用line.split("\",\"")将每一行的数据按照引号和逗号分隔，即将字段中包含的逗号作为一个整体来处理。由于双引号在Java中是特殊字符，因此在双引号前添加了反斜杠（\）来转义该字符，以确保在拆分字符串时正确解析字段。
+```
+
+## 15）Cohesion/Coupling
+
+Object-oriented design seeks to maximize cohesion, while minimizing coupling
+
+1. Cohesion（内聚性）：是指模块内部的各个元素（如类、函数等）之间的关联程度，即一个模块内各个元素是否紧密相关并有明确的目标。一个高内聚性的模块内的元素可以被视为在目标上紧密相关，它们一起执行某个特定的任务。较高的内聚性通常是优秀的设计目标，因为它可以提高模块的可重用性、可测试性和可维护性。
+2. Coupling（耦合度）：是指模块之间的依赖关系，即一个模块对其他模块的影响程度。一个低耦合度的系统意味着一个模块的变化不会影响其他模块的状态。较低的耦合度通常是优秀的设计目标，因为它可以降低代码之间的相互影响和相互依赖，提高系统的可扩展性和可维护性。
+
+## 16) Design Patterns
+
+* Creational design patterns - focus on ways to create or control the creation of objects
+
+* Structural design patterns - focus on object composition, relations between objects (e.g. inheritance), and relations between objects and the system as a whole
+
+* Behavioral patterns - focus on improving or streamlining communication between objects
+
+<img src="images/image-20230419130607469.png" alt="image-20230419130607469" style="zoom:50%;" />
+
+§问题：在每个Race子类中重新实现构造函数，以使用不同的Bicycle子类
+
+§解决方案：使用Factory method来避免依赖特定的新类型Constructor中的Bicycle
+
+<img src="images/image-20230419130726326.png" alt="image-20230419130726326" style="zoom: 33%;" />
+
+<img src="images/image-20230419130747070.png" alt="image-20230419130747070" style="zoom:33%;" />
+
+## 17） MVC
+
+<img src="images/image-20230424023257491.png" alt="image-20230424023257491" style="zoom:33%;" />
+
+* Model – typically talks to data source to retrieve and store data
+
+For example:
+
+A database table A file Some external API
+
+* View - asks model for data, and presents it in a user-friendly format
+
+For example:
+
+Draws an application window with controls for interacting with the data Takes user input, and sends it to the controller
+
+* Controller - listens for the user to change data or state in the UI, notifying the model, or view accordingly
+
+ For example:
+
+User clicks “next” button – tell view to load next screen
+
+User submits form input – tell model to update the data
+
+## 18）函数式编程
+
+#### 1）Stream
+
+```java
+int total = IntStream.rangeClosed(1, 10)  //计算1-10
+    .map((int x) -> {return x * 2;}) //所有元素 * 2   //intermediate operation 中间操作 lazy
+	.sum();  //求和   //terminal operation 终端操作 eager 
+
+int total = IntStream.rangeClosed(1, 20)
+   				     .filter(x -> x%2 == 0)  //另一种filter写法
+					 .sum();
+```
+
+<img src="images/image-20230424164525414.png" alt="image-20230424164525414" style="zoom: 33%;" />
+
+
+
+#### 2) Lambdas
+
+map() - takes a method, and applies it to every element in the stream
+
+```java
+(int x)->{return x*2;}
+//等同于
+int multiplyBy2(int x){
+    return x * 2; 
+}
+```
+
+####  3) Collectors
+
+终端操作collect()将流的元素组合成单个object，例如Collection
+
+```java
+ Collectors.counting()  //计算stream中数据的数量
+
+ Collectors.joining()   //把stream中的元素合并成一个String (指定的分隔符)
+
+ Collectors.toList()  //将流中的元素放置到一个列表集合中去。这个列表默认为ArrayList
+
+ Collectors.groupingBy() //
+     
+forEach() 将给定的方法应用于流的每个元素，该方法必须接收一个参数并返回void
+```
+

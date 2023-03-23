@@ -1,3 +1,17 @@
+![image-20221009223140796](images/image-20221009223140796.png)
+
+![image-20221009223207538](images/image-20221009223207538.png)
+
+![image-20221009223229792](images/image-20221009223229792.png)
+
+![image-20221009223241301](images/image-20221009223241301.png)![image-20221009223256835](images/image-20221009223256835.png)![image-20221009223308423](images/image-20221009223308423.png)
+
+![image-20221009223329230](images/image-20221009223329230.png)
+
+![image-20221009223345876](images/image-20221009223345876.png)
+
+
+
 # 一. Array
 
 ## 1. 集合，列表，数组
@@ -85,6 +99,9 @@ Arrays.copyOf()
 Arrays.sort(int[] a);
 //排序也可以用lambda, 比如只把数组按照某一index处的数字从小到大排序：
 Arrays.sort(array, (n1,n2)->n1[0]-n2[0]); 
+
+//截取[start, end]的子数组
+Arrays.copyOfRange(array, startIdx, endIdx);
 ```
 
 
@@ -99,6 +116,11 @@ for (int i = 0; i < nums.length; i++) {  //行数
         nums[i][j].....
     }
 }
+
+//初始化二维数组
+int[][] arr = new int[][]{};
+int[][] arr = new int[m][n];
+int[][] arr2 = {{1,2,3},{4,5,6}};
 ```
 
 
@@ -138,6 +160,7 @@ StringBuilder str = new StringBuilder( );  //一个动态变化的String
 str.append("...");
 str.deleteCharAt(num); //删除索引处字符
 String s = str.toString(); //转换成String输出
+str.reverse();  //翻转sb
 ```
 
 ##### 3.4 常用api
@@ -150,20 +173,33 @@ str.charAt(int index)//获取索引处的字符
 str.toCharArray() //将字符串转换为字符数组返回
 str.substring(int beginIndex. int endIndex)//根据索引截取字符串，左闭右开
 str.replace(oldtarget, newreplacement) //使用新值把字符串的旧值替换掉
-str.split(String regex) //根据传入的规则切割字符串，得到字符串数组返回St
+str.split(String regex) //根据传入的规则切割字符串（比如根据" "空格分割），得到字符串数组返回Str
 str.contains("a") //判断是否含有某个字符串， 不能输入'a'字符形式
     
-int num = Integer.valueOf(s);  // num = 5, 把数字字符串转变为对应的数字
+//1. 把数字字符串转变为对应的数字
+int num = Integer.valueOf(s);  // num = 5, 
 int num = Integer.parseInt(s) //同上
-//把其他类型的数据转换成string
+    
+//2. 把其他类型的数据转换成string （可以转int，可以转数组）
 String str = String.valueOf(1); // 1 -> "1"
 
+//3.直接把数组转换成字符串形式
 char[] arr  = {"b","c","a"};
-//直接把数组转换成字符串形式
-// 1.使用String.valueOf()
+//3.1 使用String.valueOf()
 String str = String.valueOf(arr); // arr -> "bca"
-// 2.使用String的构造器
+//3.2 使用String的构造器
 String str = new String(arr); 
+
+//4.把单个字符转换成int
+char c = '5';
+int num = c - '0';  //类型强转 ASCII
+
+char c2 = 'b';
+int num2 = c2 - 'a';
+
+//5.把int转换成对应的字符
+char c3 = (char) (num + '0');
+char c4 = (char) (num2 + 'a');
 ```
 
 ### 4. ArrayList
@@ -197,6 +233,15 @@ Iterator<Integer> it = res.iterator() //获取res的迭代器
 while (it.hasNext()) {
     System.out.println(it.next());
 }
+
+
+// 把ArrayList/LinkedList转换成Array输出技巧
+public int[ ] get(int[] nums) {
+    ArrayList<Integer> res = new ArrayList<>();
+	......
+    return res.toArray(new int[nums.length]);
+}
+
 ```
 
 ### 5.  List<List<...>>
@@ -324,6 +369,16 @@ class DLL {
         tail = new ListNode(0);
         head.next = tail;
         tail.prev = head;       
+    }
+}
+
+class DLL {
+    int val;
+    DLL prev, next;
+    public DLL(int v) { //有参构造器
+        val = v;
+        prev = null;
+        next = null;
     }
 }
 ```
@@ -459,7 +514,7 @@ public class Main {
         }
         // 5. get the size of the hash set
         System.out.println("The size of has set is: " + hashSet.size());     
-        // 6. iterate the hash set
+        // 6. iterate the hash set， 加强for-each遍历
         for (Integer i : hashSet) {
             System.out.print(i + " ");
         }
@@ -516,6 +571,13 @@ public class Main {
         if (hashmap.isEmpty()) {
         }
     }
+}
+
+*** // 用ArrayList<>() 作为val时
+HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+for (int i = 0; i < nums.length; i++) {
+    map.putIfAbsent(nums[i], new ArrayList()); //必须新建
+    map.get(nums[i]).add(i);
 }
 ```
 
@@ -826,5 +888,427 @@ PriorityQueue<int[]> heap = new PriorityQueue<>(new Comparator<int[]>() {
 
 //排序也可以用lambda, 比如只把数组按照某一index处的数字从小到大排序：
 Arrays.sort(array, (n1,n2)->n1[0]-n2[0]); 
+Arrays.sort(array, (n1,n2)->Integer.compare(n1[0],n2[0]); //防止long溢出
+Arrays.sort(array, (n1,n2)-> {  //防止数据溢出
+      if(n1[0]>n2[0]) return 1;
+      if(n1[0]<n2[0]) return -1;
+      return 0;
+}); 
+```
+
+# 七. Trie (Prefix tree)
+
+前缀树/字典树
+
+```java
+/* Trie 树节点实现 */
+class TrieNode<V> {
+    V val = null;  // val 存储键对应的值
+    TrieNode<V>[] children = new TrieNode[256]; //children 数组存储指向子节点的指针
+}
+*** TrieNode 中 children 数组的索引是有意义的，代表键中的一个字符。 ***
+    如children[97] is true, --> 存储了一个字符'a'， 其ASCII码为97
+ 
+```
+
+
+
+特别注意，TrieNode 节点本身只存储 val 字段，并没有一个字段来存储字符，字符是通过子节点在父节点的 children 数组中的索引确定的。
+
+==形象理解就是，Trie 树用「树枝」存储字符串（键），用「节点」存储字符串（键）对应的数据（值)==<img src="images/9.jpeg" alt="img" style="zoom:50%;" />
+
+#### 1）构造trie
+
+```java
+class TrieNode {    //lc208 构造trie
+    boolean isEnd; //有时候可以替换成其他数据结构,只要能在结束点进行记录/标记即可
+    TrieNode[] children = new TrieNode[26];
+    public Trie() {} //默认无参构造器，可以不写
+}
+
+class Trie {
+    public TrieNode root;
+    public Trie() {
+        root = new TrieNode();//默认无参构造器
+    }
+    
+    public void insert(String word) {
+        TrieNode curr = this.root;
+        for (char c : word.toCharArray()) {
+            int index = c - 'a';
+            //未有过的字符，新建
+            if (curr.children[index] == null) {
+                curr.children[index] = new TrieNode();
+            }
+            //已经有过的字符，遍历往后走
+            curr = curr.children[index];
+        }
+        curr.isEnd = true; //单词结尾标记
+    }
+    
+    public boolean search(String word) {
+        TrieNode curr = this.root;
+        for (char w : word.toCharArray()) {
+            int idx = w - 'a';
+            //word还没走完，其中某个字符没被记录，直接false
+            if (curr.children[idx] == null) {
+                return false;
+            }
+            //往后走
+            curr = curr.children[idx];
+        }
+        return curr.isEnd; //判断word走完后的结尾字符是否之前已经被存储标记
+    }
+    
+    public boolean startsWith(String prefix) {
+        TrieNode curr = this.root;
+        for (char pre : prefix.toCharArray()) {
+            int idx = pre - 'a';
+            //找不到当前前缀字符，false
+            if (curr.children[idx] == null) {
+                return false;
+            }
+            curr = curr.children[idx];
+        }
+        //只要能顺利走完，不需要验证是否isEnd， 因为必然有>=该前缀的字符串被存储过
+        return true;
+    }
+}
+
+```
+
+# 八. Graph
+
+#### 1) 定义
+
+<img src="images/image-20230408161234370.png" alt="image-20230408161234370" style="zoom:80%;" />
+
+```java
+/* 图节点的逻辑结构 */
+//1.节点 Vertex
+class Vertex {  
+    int id;  
+    Vertex[] neighbors;  //
+}
+
+//2.边 Edge
+两个节点之间的连接
+  
+//3.路径 Path  （两节点间可能有多个路径）
+从一个节点到另一个节点的节点序列（sequence of vertices)
+//4.路径长度 Path Length
+路径中edges的数量 （节点序列中节点数-1）
+//5.环 Cycle
+起点和终点是同一节点的路径
+    
+//6.Degree 度
+每个节点相连的边的条数。
+对于有向图： indegree 入度 ，outdegree 出度
+
+```
+
+
+
+#### 2）邻接表/矩阵 Adjancey list/matrix
+
+<img src="images/image-20230408161742240.png" alt="image-20230408161742240" style="zoom:50%;" />
+
+```java
+1.有向图
+// 邻接表 : 占用空间少，但无法快速判断两个节点是否相邻（adjancent) determine
+// graph[x] 存储 x 的所有邻居节点
+List<Integer>[] graph;
+
+// 邻接矩阵 : 快速判断两个节点是否相邻
+// matrix[x][y] 记录 x 是否有一条指向 y 的边
+boolean[][] matrix;
+
+// 邻接表构建有向图
+    public List<Integer>[] buildGraph(int num, int[][] edges) {
+        List<Integer>[] graph = new LinkedList[num]; //注意是链表数组
+        for (int i = 0; i < numCourses; i++) {
+            graph[i] = new LinkedList<>(); //默认必须加上list
+        }
+        
+        for (int[] prerequisite : prerequisites) { //指向
+            int from = edges[1], to = edges[0];
+            graph[from].add(to);
+        }
+        return graph;
+    }
+```
+
+
+
+```java
+2.有向加权图
+// 邻接表
+// graph[x] 存储 x 的所有邻居节点以及对应的权重
+List<int[]>[] graph;
+
+// 邻接矩阵
+// matrix[x][y] 记录 x 指向 y 的边的权重，0 表示不相邻，其他数字表示权重
+int[][] matrix;
+ 
+3.无向图  //相当于双向图，构建时双向添加两次即可
+    如果连接无向图中的节点 x 和 y，把 matrix[x][y] 和 matrix[y][x] 都变成 true 就行了；邻接表也是类似的操作，在 x 的邻居列表里添加 y，同时在 y 的邻居列表里添加 x。
+```
+
+
+
+#### 3）二分图  Bipartite graph
+
+**用两种颜色将图中的所有顶点着色，且使得任意一条边的两个端点的颜色都不相同， 即为二分图**
+
+<img src="images/1.jpg" alt="img" style="zoom: 33%;" />
+
+#### 4） 并查集 Union-Find (Disjoint-set)
+
+```java
+class UF {
+    /* 将 p 和 q 连接 */
+    public void union(int p, int q);
+    /* 判断 p 和 q 是否连通 */
+    public boolean connected(int p, int q);
+    /* 返回图中有多少个连通分量 */
+    public int count();
+}
+```
+
+##### 1）构造
+
+**1. 设定树的每个节点有一个指针指向其父节点，如果是根节点的话，这个指针指向自己 。如果某两个节点被连通，则让其中的（任意）一个节点的根节点接到另一个节点的根节点上**：
+
+**2. 这样，如果节点 `p` 和 `q` 连通的话，它们一定拥有相同的根节点**
+
+<img src="images/4.jpg" alt="img" style="zoom:50%;" />
+
+`connected` 和 `union` 中的复杂度都是 `find` 函数造成的，三者复杂度都与find一致。
+
+这种情况的find从某个节点向上遍历到树根，时间复杂度就是树的高度。但时间复杂度最优是平衡二叉树O(logN),
+
+最坏情况tree会退化成linkedlist, 此时三个方法的时间复杂度都会是 O(N) ，太慢。
+
+
+
+##### 2）平衡优化：
+
+头重脚轻的情况：
+
+<img src="images/7.jpg" alt="img" style="zoom:50%;" />
+
+==解决方法是额外使用一个 `size` 数组，记录每棵树包含的节点数，称为<重量>==
+
+通过比较树的重量，把重量小的树的root接到较大树的root下面，就可以保证树的生长相对平衡，树的高度大致在 `logN` 这个数量级，极大提升执行效率。
+
+此时，`find` , `union` , `connected` 的时间复杂度都下降为==O(logN)==，即便数据规模上亿，所需时间也非常少
+
+
+
+##### 3) 路径压缩
+
+**其实我们并不在乎每棵树的结构长什么样，只在乎根节点**。树上的每个节点的根节点都是相同的，所以能不能进一步压缩每棵树的高度，使树高始终保持为常数 ？这样每个节点的父节点就是整棵树的根节点，`find` 就能以 O(1) 的时间找到某一节点的根节点，相应的，`connected` 和 `union` 复杂度都下降为 O(1)。
+
+ ==路径压缩就没有必要使用size平衡优化了==
+
+```java
+// 路径压缩的 find 方法
+public int find(int x) {
+    if (parent[x] != x) {
+        parent[x] = find(parent[x]); //压缩法2，效率更高
+    }
+    return parent[x];
+}
+```
+
+<img src="images/10.jpeg" alt="img" style="zoom:30%;" />
+
+##### 4）最终写法
+
+```java
+class UF {
+    // 连通分量个数
+    private int count;
+    // 存储每个节点的父节点
+    private int[] parent;
+
+    // n 为图中节点的个数
+    public UF(int n) {
+        this.count = n;
+        parent = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i; //根节点的parent指向自己
+        }
+    }
+    
+    // 将节点 p 和节点 q 连通
+    public void union(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        
+        if (rootP == rootQ) //注意！0-1,0-2已经union；若要union(1,2)，此时的1，2已经connected
+            return;			//应当直接跳过，因为1，2的root相同，且两者union时count也不会变
+            
+        parent[rootQ] = rootP;
+        // 两个连通分量合并成一个连通分量
+        count--;
+    }
+
+    // 判断节点 p 和节点 q 是否连通
+    public boolean connected(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        return rootP == rootQ;
+    }
+
+    public int find(int x) {  //返回根节点的值
+        if (parent[x] != x) { //当前节点的父节点在更上方
+            parent[x] = find(parent[x]);  //路径压缩，往上找直到找到根节点
+        }
+        return parent[x];
+    }
+
+    // 返回图中的连通分量个数
+    public int count() {
+        return count;
+    }
+}
+```
+
+# 九. LRU
+
+Least Recently Used
+
+##### 1.手动造轮子
+
+```java
+// 1. 双链表节点
+class Node {
+    int key, val;
+    Node prev, next;
+    public Node(int k, int v) {
+        this.key = k;
+        this.val = v;
+    }
+}
+// 2.双向链表
+class DoubleList {
+    Node head, tail;
+    int size;
+    public DoubleList() {
+        head = new Node(0,0);
+        tail = new Node(0,0);
+        head.next = tail;
+        tail.prev = head;
+        size = 0;
+    }
+    public void addLast(Node x) {
+        tail.prev.next = x;
+        x.prev = tail.prev;
+        x.next = tail;
+        tail.prev = x;
+        size ++;
+    }
+    public void remove(Node x) {
+        x.prev.next = x.next;
+        x.next.prev = x.prev;
+        size--;
+    }
+    //移除第一个Node并将其返回
+    public Node removeFirst() {
+        if (head.next == tail) {
+            return null;
+        }
+        Node target = head.next;
+        remove(target);
+        return target;
+    }
+}
+
+// 3.LRU cache主体
+    // key -> Node(key,val)
+    HashMap<Integer, Node> map;
+    // Node(k1,v1) <-> Node(k2,v2) ...
+    DoubleList cache;
+    int cap;
+    public LRUCache(int capacity) {
+        map = new HashMap<>();
+        cache = new DoubleList();
+        cap = capacity;
+    }
+    
+    public int get(int key) {
+        if (!map.containsKey(key)) {
+            return -1;
+        }
+        // 更新target为最近使用的（双链表结尾）
+        Node targetNode = map.get(key);
+        cache.remove(targetNode);
+        cache.addLast(targetNode);
+        return targetNode.val;
+    }
+    
+    public void put(int key, int value) {
+        Node newNode = new Node(key,value);
+        //1.已有该key
+        if (map.containsKey(key)){
+            //1.先删除历史位置的key
+            Node nodeToDelete = map.get(key);
+            map.remove(key);
+            cache.remove(nodeToDelete);
+            //2.将替换过的值添加到map和双链表结尾
+            map.put(key,newNode);
+            cache.addLast(newNode);
+            return; //结束
+        }
+        //2.链表已满，移除第一个即为LRU
+        if (cache.size == cap) {
+            Node nodeToRemove = cache.removeFirst();
+            map.remove(nodeToRemove.key);
+        }
+        //3.添加新的节点
+        map.put(key, newNode);
+        cache.addLast(newNode);
+    }
+
+```
+
+##### 2. Java 的内置类型 `LinkedHashMap`
+
+```java
+ int cap;
+    LinkedHashMap<Integer,Integer> cache = new LinkedHashMap<>();
+
+    public LRUCache(int capacity) {
+        cap = capacity;
+    }
+    
+    public int get(int key) {
+        if (!cache.containsKey(key)) {
+            return -1;
+        }
+        makeRecentlyUse(key);
+        return cache.get(key);
+    }
+    
+    public void put(int key, int value) {
+        if (cache.containsKey(key)) {
+            cache.put(key, value);
+            makeRecentlyUse(key);
+            return;
+        }
+        if (cache.size() == cap) {
+            //迭代器找到最久未使用的节点并删除
+            int lruNode = cache.keySet().iterator().next();
+            cache.remove(lruNode);
+        }
+        cache.put(key, value);
+    }
+    //私有方法， 删除老的key 并重新添加自动挪到最末尾
+    private void makeRecentlyUse(int key) {
+        int val = cache.get(key);
+        cache.remove(key);
+        cache.put(key, val);
+    }
 ```
 

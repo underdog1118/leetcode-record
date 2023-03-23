@@ -1,4 +1,4 @@
-## **leetcode常见
+## **leetcode常见技巧
 
 #### 1) Design class类型
 
@@ -34,12 +34,69 @@ int max = ...;
 int num = rand.nextInt(max);
 ```
 
-#### 3）long
+#### 3) long
 
 ```java
 //Java生成long型注意：
 long num = (long) k * n;  //后面进行了乘法计算，需要加上(long)转型
 long num2 = 1000000000L; //末尾加上L！！
+```
+
+#### 4) Java 内置sort
+
+```java
+//排序也可以用lambda, 比如只把数组按照某一index处的数字从小到大排序：
+Arrays.sort(array, (n1,n2)->n1[0]-n2[0]);
+
+Arrays.sort(array, (n1,n2)->Integer.compare(n1[0],n2[0]); //防止long溢出
+            
+Arrays.sort(array, (n1,n2)-> {  //防止数据溢出
+      if(n1[0]>n2[0]) return 1;
+      if(n1[0]<n2[0]) return -1;
+      return 0;
+}); 
+```
+
+#### 5) Java除法
+
+```java
+//默认是地板floor除 
+10 / 3 = 3
+//想用天花板ceiling除的话 
+ceil : a/b  => (a+b-1)/b 
+(10+2)/3 = 4    
+```
+
+#### 6) 异或
+
+```java
+1.一个数和 0 做 XOR 运算等于本身：a⊕0 = a
+一个数和其本身做 XOR 运算等于 0：a⊕a = 0
+XOR 运算满足交换律和结合律：a⊕b⊕a = (a⊕a)⊕b = 0⊕b = b
+
+2.couples : 01 23 45 67 89
+couple1 ^ 1 = couple2
+
+3.判断两个数是否异号 (用乘法容易溢出)
+int x = -1, y = 2;
+boolean f = ((x ^ y) < 0); // true
+
+int x = 3, y = 2;
+boolean f = ((x ^ y) > 0); // false
+
+4. n&(n-1) :消除数字 n 的二进制表示中的最后一个 1 
+	& 符号是位运算符中的一种，表示按位与（AND），假设有两个二进制数 a 和 b，它们的每一位分别为 a[i] 和 b[i]，则 a & b 的结果是一个二进制数，其每一位都是 a[i] 和 b[i] 的逻辑 AND 运算的结果。具体来说，如果 a[i] 和 b[i] 都为 1，则结果的第 i 位为 1，否则为 0。
+```
+
+#### 7）公共最大因数
+
+```java
+public static int gcd(int a, int b) {
+    if (b == 0) {
+        return a;
+    }
+    return gcd(b, a % b);
+}
 ```
 
 
@@ -718,7 +775,7 @@ public void levelTraverse(TreeNode root) {
 ```
 
 ```java
-// dfs模拟bfs
+// 4.1 dfs模拟bfs
 List<Integer> res = new ArrayList<>();
 public List<Integer> levelOrder(TreeNode root) {
     if (root == null) {return res;}
@@ -743,6 +800,41 @@ public void dfsAsBfs(TreeNode root, int depth) {
     }
 }
 ```
+
+```java
+// 4.1 bfs题目模版
+//计算从起点 start 到终点 target 的最近距离
+int BFS(Node start, Node target) {
+    Queue<Node> q; // 核心数据结构
+    Set<Node> visited; // 避免走回头路
+    
+    q.offer(start); // 将起点加入队列
+    visited.add(start);
+    int step = 0; // 记录扩散的步数
+
+    while (q not empty) {
+        int sz = q.size();
+        /* 将当前队列中的所有节点向四周扩散 */
+        for (int i = 0; i < sz; i++) {
+            Node cur = q.poll();
+            /* 划重点：这里判断是否到达终点 */
+            if (cur is target)
+                return step;
+            /* 将 cur 的相邻节点加入队列 */
+            for (Node x : cur.adj()) {
+                if (x not in visited) {
+                    q.offer(x);
+                    visited.add(x);
+                }
+            }
+        }
+        /* 划重点：更新步数在这里 */
+        step++;
+    }
+}
+```
+
+
 
 ## 8. Compare Tree
 
@@ -1272,3 +1364,450 @@ void backtrack(int[] nums) {
 ```
 
 ![image-20230309182029735](images/image-20230309182029735.png)
+
+## 13) Greedy
+
+
+
+## 14) Graph
+
+#### 1）DFS Travesal
+
+1. 多叉树 （N-ary Tree)
+
+```java
+/* 多叉树遍历框架 */
+void traverse(TreeNode root) {
+    if (root == null) return;
+    // 前序位置
+    for (TreeNode child : root.children) {
+        traverse(child);
+    }
+    // 后序位置
+}
+```
+
+2. 图 （区别在于：图包含环，多叉树无，所以就要一个 `visited` 数组进行辅助）
+
+<img src="images/1-20230416224724399.gif" alt="img" style="zoom:40%;" />
+
+```java
+// 记录被遍历过的节点  ** 一般可能有环的图才用visited, 无环图不需要
+boolean[] visited;  //灰色点
+// 记录从起点到当前节点的路径
+boolean[] onPath;  //绿色点
+
+/* 图遍历框架 */   图dfs关注点在节点
+void traverse(Graph graph, int s) {
+    if (visited[s]) return;
+    visited[s] = true;    // 经过节点 s，标记为已遍历
+
+    onPath[s] = true;    // 做选择：标记节点 s 在路径上
+    for (int neighbor : graph.neighbors(s)) {
+        traverse(graph, neighbor);
+    }
+    onPath[s] = false;    // 撤销选择：节点 s 离开路径
+}
+```
+
+```java
+***// 回溯算法，关注点在树枝 ***
+void backtrack(TreeNode root) {
+    if (root == null) return;
+    for (TreeNode child : root.children) {
+        // 做选择
+        printf("从 %s 到 %s", root, child);
+        backtrack(child);
+        // 撤销选择
+        printf("从 %s 到 %s", child, root);
+    }
+}
+```
+
+#### 2）BFS Travesal
+
+==优势：快速找到图中两节点之间的最短路径== （所有edges有相等和正数的权重）
+
+相对dfs而言，因为bfs在找到第一个符合条件的路径时必定是最短路径
+
+```java
+//大致模版
+int[][] dirs = {{1,0},{0,1},{-1,0},{0,-1},{1,1},{-1,-1},{-1,1},{1,-1}}; //方向
+Queue<int[]> queue = new LinkedList<>();
+queue.offer(new int[]{0,0});
+grid[0][0] = 1; // 淹没操作
+while (!queue.isEmpty()) {
+    int size = queue.size();
+    for (int i = 0; i < size; i++) {
+        int[] currPos = queue.poll();
+        if (...) {
+            return res; //到达终点
+        }
+        for (int[] dir : dirs) {  //遍历所有方向
+            int nextI = currPos[0] + dir[0];
+            int nextJ = currPos[1] + dir[1];
+            //越界 或者 已经走过/不能选
+            if (nextI < 0 || nextI >= n || nextJ < 0 || nextJ >= n || grid[nextI][nextJ] != 0) {
+                continue;
+            }
+            //只把legal和 = 0的下一步加入到queue中
+            queue.offer(new int[]{nextI,nextJ});
+            grid[nextI][nextJ] = 1; // *** 淹没，防止走回头路,否则TLE
+        }
+    }
+    res ++; //更新bfs往外走的一步，本层结束进入下一层
+}
+```
+
+#### 3）Topological sorting
+
+<img src="images/399159-20151229144326901-1530781288.png" alt="img" style="zoom: 50%;" />
+
+**直观地说就是，让你把一幅图「拉平」，而且这个「拉平」的图里面，所有箭头方向都是一致的**。
+
+有向图中若有环（DCG) ，必定无法拓扑排序，因为做不到箭头一致；
+
+但若是==有向无环图 DAG (Directed Acyclic Graph)==  ，一定可以拓扑排序。
+
+```java
+    public List<Integer>[] buildGraph(int num, int[][] edges) {
+        List<Integer>[] graph = new LinkedList[num]; //注意是链表数组
+        for (int i = 0; i < numCourses; i++) {
+            graph[i] = new LinkedList<>(); //默认必须加上list
+        }
+        
+        for (int[] prerequisite : prerequisites) { //指向
+            int from = edges[1], to = edges[0];
+            graph[from].add(to);
+        }
+        return graph;
+    }
+//此处通过邻接表构建图的箭头方向是被依赖关系, 即 from被to依赖： from -> to。 to被添加到from的list中
+```
+
+1. 此种dfs建图方法的拓扑序是==**后序遍历的倒序 **== ：lc210/207
+
+```java
+int len = graph.length;
+int[] res = new int[len];
+int idx = len-1 ; //从末尾开始赋值，即为倒序
+void traverse(Graph graph, int s) {
+    if (visited[s]) return;
+    visited[s] = true;    // 经过节点 s，标记为已遍历
+
+    onPath[s] = true;    // 做选择：标记节点 s 在路径上
+    for (int neighbor : graph.neighbors(s)) {
+        traverse(graph, neighbor);
+    }
+    res[len-1] = s;  // *** 后序遍历，倒序记录res即为拓扑序 ***
+    
+    onPath[s] = false;    // 撤销选择：节点 s 离开路径
+}
+```
+
+**2. bfs 实现拓扑排序**
+
+```java
+   public int[] findOrder(int numCourses, int[][] prerequisites) {
+        List<Integer>[] graph = buildGraph(numCourses, prerequisites);
+        int[] res = new int[numCourses];
+        int[] indegree = new int[numCourses];
+        Queue<Integer> queue = new LinkedList<>();
+        //计算所有入度
+        for (int[] prerequisite : prerequisites) {
+            int to = prerequisite[0];  
+            indegree[to]++;
+        }
+        
+        for (int i = 0 ; i < numCourses; i++) {
+        // 节点 n 没有入度，即没有依赖的节点
+        // 可以作为拓扑排序的起点，加入队列
+            if (indegree[i]==0) { 
+                queue.offer(i);
+            }
+        }
+
+        int cnt = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                // 弹出节点 cur，并将它指向的节点的入度减一
+                int curr = queue.poll();
+                res[cnt++] = curr; //*** 记录遍历到的节点 并且该节点遍历顺序即为拓扑序
+                for (int next : graph[curr]) {
+                    indegree[next]--;
+                    // 如果入度变为 0，说明 next 依赖的节点都已被遍历，加入queue
+                    if (indegree[next] == 0) {
+                        queue.offer(next);
+                    }
+                }
+            }
+        }
+        return cnt != numCourses ? new int[]{} : res; //判断是否有环（能全部上完）
+    }
+
+
+    public List<Integer>[] buildGraph(int numCourses, int[][] prerequisites) {
+    	//与上文一致
+    }
+
+时间复杂度： O(V+E)  
+1.buildgraph使用了O(E),因为遍历了所有的edges
+2.bfs过程，最坏需要遍历所有的边和点， O(V+E)
+    
+空间复杂度： O(V+E)
+1.adjacency list 需要 O(E)
+2.存储入度需要 O（V）; queue需要 O(V)
+```
+
+#### 4）Union-Find 并查集
+
+```java
+class UF {
+    // 连通分量个数
+    private int count;
+    // 存储每个节点的父节点
+    private int[] parent;
+
+    // n 为图中节点的个数
+    public UF(int n) {
+        this.count = n;
+        parent = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i; //根节点的parent指向自己
+        }
+    }
+    
+    // 将节点 p 和节点 q 连通
+    public void union(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        
+        if (rootP == rootQ) //注意！0-1,0-2已经union；若要union(1,2)，此时的1，2已经connected
+            return;			//应当直接跳过，因为1，2的root相同，且两者union时count也不会变
+            
+        parent[rootQ] = rootP;
+        // 两个连通分量合并成一个连通分量
+        count--;
+    }
+
+    // 判断节点 p 和节点 q 是否连通
+    public boolean connected(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        return rootP == rootQ;
+    }
+
+    public int find(int x) {
+        if (parent[x] != x) { //找到根节点
+            parent[x] = find(parent[x]);  //路径压缩
+        }
+        return parent[x];
+    }
+
+    // 返回图中的连通分量个数
+    public int count() {
+        return count;
+    }
+}
+```
+
+#### 5）Kruskal Minimum Spanning Tree
+
+最小生成树。**「树」和「图」的根本区别：树不会包含环，图可以包含环**。
+
+<img src="images/1.png" alt="img" style="zoom:33%;" />
+
+**所有可能的生成树中，权重和最小的那棵生成树就叫「最小生成树」**。 上图右侧<左侧
+
+==**对于添加的这条边，如果该边的两个节点本来就在同一连通分量里，那么添加这条边会产生环；反之，如果该边的两个节点不在同一连通分量里，则添加这条边不会产生环**==。
+
+Kruskal算法：（贪心）O(ElogE)
+
+**==将所有边按照权重从小到大排序==，从权重最小的边开始遍历，如果这条边和 `mst` 中的其它边不会形成环，则这条边是最小生成树的一部分，将它加入 `mst` 集合；否则，这条边不是最小生成树的一部分，不要把它加入 `mst` 集合**。 (Union-Find模版上找出环则跳过)
+
+#### 6) Prim MST
+
+**Prim 算法也使用贪心思想来让生成树的权重尽可能小**，也就是==切分定理==
+
+「切分」这个术语其实很好理解，就是将一幅图分为两个**不重叠且非空**的节点集合：<img src="images/1.jpeg" alt="img" style="zoom:50%;" />
+
+「切分定理」：**对于任意一种「切分」，其中权重最小的那条「横切边」一定是构成最小生成树的一条边**。
+
+
+
+**Prim 算法使用 [BFS 算法思想](https://labuladong.github.io/algo/di-ling-zh-bfe1b/bfs-suan-f-463fd/) 和 `visited` 布尔数组避免成环**. O(ElogE)
+
+从一个起点的切分（一组横切边）开始执行类似 BFS 算法的逻辑，借助切分定理和优先级队列动态排序的特性，从这个起点「生长」出一棵最小生成树。
+
+```java
+class Prim {
+    // 核心数据结构，存储「横切边」的优先级队列
+    private PriorityQueue<int[]> pq;
+    // 类似 visited 数组的作用，记录哪些节点已经成为最小生成树的一部分
+    private boolean[] inMST;
+    // 记录最小生成树的权重和
+    private int weightSum = 0;
+    // graph 是用邻接表表示的一幅图，
+    // graph[s] 记录节点 s 所有相邻的边，
+    // 三元组 int[]{from, to, weight} 表示一条边
+    private List<int[]>[] graph;
+
+    public Prim(List<int[]>[] graph) {
+        this.graph = graph;
+        this.pq = new PriorityQueue<>((a, b) -> {
+            // 按照边的权重从小到大排序
+            return a[2] - b[2];
+        });
+        // 图中有 n 个节点
+        int n = graph.length;
+        this.inMST = new boolean[n];
+
+        // 随便从一个点开始切分都可以，我们不妨从节点 0 开始
+        inMST[0] = true;
+        cut(0);
+        // 不断进行切分，向最小生成树中添加边
+        while (!pq.isEmpty()) {
+            int[] edge = pq.poll();
+            int to = edge[1];
+            int weight = edge[2];
+            if (inMST[to]) {
+                // 节点 to 已经在最小生成树中，跳过
+                // 否则这条边会产生环
+                continue;
+            }
+            // 将边 edge 加入最小生成树
+            weightSum += weight;
+            inMST[to] = true;
+            // 节点 to 加入后，进行新一轮切分，会产生更多横切边
+            cut(to);
+        }
+    }
+
+    // 将 s 的横切边加入优先队列
+    private void cut(int s) {
+        // 遍历 s 的邻边
+        for (int[] edge : graph[s]) {
+            int to = edge[1];
+            if (inMST[to]) {
+                // 相邻接点 to 已经在最小生成树中，跳过
+                // 否则这条边会产生环
+                continue;
+            }
+            // 加入横切边队列
+            pq.offer(edge);
+        }
+    }
+
+    // 最小生成树的权重和
+    public int weightSum() {
+        return weightSum;
+    }
+
+    // 判断最小生成树是否包含图中的所有节点
+    public boolean allConnected() {
+        for (int i = 0; i < inMST.length; i++) {
+            if (!inMST[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+```
+
+#### 7）Dijkstra 算法
+
+```java
+class State {
+    // 图节点的 id
+    int id;
+    // 从 start 节点到当前节点的距离
+    int distFromStart;
+
+    State(int id, int distFromStart) {
+        this.id = id;
+        this.distFromStart = distFromStart;
+    }
+}
+// 返回节点 from 到节点 to 之间的边的权重
+int weight(int from, int to);
+
+// 输入节点 s 返回 s 的相邻节点
+List<Integer> adj(int s);
+
+// 输入一幅图和一个起点 start，计算 start 到其他节点的最短距离
+int[] dijkstra(int start, List<Integer>[] graph) {
+    // 图中节点的个数
+    int V = graph.length;
+    // 记录最短路径的权重，你可以理解为 dp table
+    // 定义：distTo[i] 的值就是节点 start 到达节点 i 的最短路径权重
+    int[] distTo = new int[V];
+    // 求最小值，所以 dp table 初始化为正无穷
+    Arrays.fill(distTo, Integer.MAX_VALUE);
+    // base case，start 到 start 的最短距离就是 0
+    distTo[start] = 0;
+
+    // 优先级队列，distFromStart 较小的排在前面
+    Queue<State> pq = new PriorityQueue<>((a, b) -> {
+        return a.distFromStart - b.distFromStart;
+    });
+
+    // 从起点 start 开始进行 BFS
+    pq.offer(new State(start, 0));
+
+    while (!pq.isEmpty()) {
+        State curState = pq.poll();
+        int curNodeID = curState.id;
+        int curDistFromStart = curState.distFromStart;
+		
+        //** 输入起点 start 和终点 end，计算起点到终点的最短距离
+        // 在这里加一个终点的判断就行了，其他代码不用改
+        if (curNodeID == end) {
+            return curDistFromStart;
+        }   
+        // 已经有一条更短的路径到达 curNode 节点了
+        if (curDistFromStart > distTo[curNodeID]) {
+            continue;
+        }
+        // 将 curNode 的相邻节点装入队列
+        for (int nextNodeID : adj(curNodeID)) {
+            // 看看从 curNode 达到 nextNode 的距离是否会更短
+            int distToNextNode = distTo[curNodeID] + weight(curNodeID, nextNodeID);
+            if (distTo[nextNodeID] > distToNextNode) {
+                // 更新 dp table
+                distTo[nextNodeID] = distToNextNode;
+                // 将这个节点以及距离放入队列
+                pq.offer(new State(nextNodeID, distToNextNode));
+            }
+        }
+    }
+    return distTo;
+}
+
+```
+
+## 15) Dynamic Programming
+
+##### 1) 斐波那契数列举例
+
+![img](images/fib-20230527114710169.png)
+
+「状态转移方程」描述问题结构的数学形式
+
+**千万不要看不起暴力解，动态规划问题最困难的就是写出这个暴力解，即状态转移方程**。
+
+只要写出暴力解，优化方法无非是用备忘录或者 DP table，再无奥妙可言
+
+##### 2) 种类
+
+* top - down 自上而下     ==memoization== (记忆化) 使用==recursion==
+* bottom - up 自下而上   ==tabulation== (表格化)  使用==iteration==
+
+##### 3) LIS (最长上升子序列)
+
+##### 4) LCS (最长公共子序列)
+
+
+
