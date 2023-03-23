@@ -9,14 +9,19 @@ import java.util.Stack;
 public class test {
     public static void main(String[] args) {
         test lc = new test();
-
-        String s = "c";
-        String target = "abd";
-        System.out.println(target.contains(s));
-        char[] c= new char[]{'a','b','c','d'};
-        int[] nums = new int[]{1,2,3};
-
+        int[] nums = new int[]{1,-10,7,13,6,8};
+        int value = 5;
+        for (int n : nums){
+            while (n > 0 && n-value > 0) {
+                n-=value;
+            }
+            while (n < 0) {
+                n+= value;
+            }
+        }
+        System.out.println((-3)%4);
     }
+
 
 
 
