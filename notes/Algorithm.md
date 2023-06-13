@@ -1367,6 +1367,7 @@ void backtrack(int[] nums) {
 
 ## 13) Greedy
 
+<<<<<<< HEAD
 
 
 ## 14) Graph
@@ -1808,6 +1809,3 @@ int[] dijkstra(int start, List<Integer>[] graph) {
 ##### 3) LIS (最长上升子序列)
 
 ##### 4) LCS (最长公共子序列)
-
-
-

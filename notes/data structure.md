@@ -1312,3 +1312,83 @@ class DoubleList {
     }
 ```
 
+# 七. Trie (Prefix tree) 
+
+前缀树/字典树
+
+```java
+/* Trie 树节点实现 */
+class TrieNode<V> {
+    V val = null;  // val 存储键对应的值
+    TrieNode<V>[] children = new TrieNode[256]; //children 数组存储指向子节点的指针
+}
+*** TrieNode 中 children 数组的索引是有意义的，代表键中的一个字符。 ***
+    如children[97] is true, --> 存储了一个字符'a'， 其ASCII码为97
+ 
+```
+
+
+
+特别注意，TrieNode 节点本身只存储 val 字段，并没有一个字段来存储字符，字符是通过子节点在父节点的 children 数组中的索引确定的。
+
+==形象理解就是，Trie 树用「树枝」存储字符串（键），用「节点」存储字符串（键）对应的数据（值)==<img src="images/9.jpeg" alt="img" style="zoom:50%;" />
+
+#### 1）构造trie
+
+```java
+class TrieNode {    //lc208 构造trie
+    boolean isEnd;
+    TrieNode[] children = new TrieNode[26];
+}
+
+class Trie {
+    public TrieNode root;
+    public Trie() {
+        root = new TrieNode();//默认无参构造器
+    }
+    
+    public void insert(String word) {
+        TrieNode curr = this.root;
+        for (char c : word.toCharArray()) {
+            int index = c - 'a';
+            //未有过的字符，新建
+            if (curr.children[index] == null) {
+                curr.children[index] = new TrieNode();
+            }
+            //已经有过的字符，遍历往后走
+            curr = curr.children[index];
+        }
+        curr.isEnd = true; //单词结尾标记
+    }
+    
+    public boolean search(String word) {
+        TrieNode curr = this.root;
+        for (char w : word.toCharArray()) {
+            int idx = w - 'a';
+            //word还没走完，其中某个字符没被记录，直接false
+            if (curr.children[idx] == null) {
+                return false;
+            }
+            //往后走
+            curr = curr.children[idx];
+        }
+        return curr.isEnd; //判断word走完后的结尾字符是否之前已经被存储标记
+    }
+    
+    public boolean startsWith(String prefix) {
+        TrieNode curr = this.root;
+        for (char pre : prefix.toCharArray()) {
+            int idx = pre - 'a';
+            //找不到当前前缀字符，false
+            if (curr.children[idx] == null) {
+                return false;
+            }
+            curr = curr.children[idx];
+        }
+        //只要能顺利走完，不需要验证是否isEnd， 因为必然有>=该前缀的字符串被存储过
+        return true;
+    }
+}
+
+```
+
