@@ -568,8 +568,6 @@ public void push(int n) {
 }
 ```
 
-## 
-
 ## 7. Traverse binary tree
 
 #### 1) 前序
@@ -1368,7 +1366,6 @@ void backtrack(int[] nums) {
 ## 13) Greedy
 
 <<<<<<< HEAD
-
 
 ## 14) Graph
 
