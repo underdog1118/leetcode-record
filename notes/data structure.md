@@ -163,7 +163,7 @@ String s = str.toString(); //转换成String输出
 str.reverse();  //翻转sb
 ```
 
-##### 3.4.1 String常用api
+##### 3.4 常用api
 
 ```java
 String str = "abc";
@@ -200,20 +200,6 @@ int num2 = c2 - 'a';
 //5.把int转换成对应的字符
 char c3 = (char) (num + '0');
 char c4 = (char) (num2 + 'a');
-```
-
-##### 3.4.2 Character常用api
-
-```java
-//1.isLetter(char ch)：检查字符是否是一个字母（大写或小写）
-char ch = 'A';
-boolean isLetter = Character.isLetter(ch);
-
-2.isDigit(char ch)：检查字符是否是一个数字字符。
-3.isLetterOrDigit(char c) : 检查是否为字母或数字
-4.isUpperCase(char ch)/isLowerCase(char ch)：检查字符是否为大写/小写字母。
-5.toUpperCase(char ch)/toLowerCase(char ch)：将字符转换为大写/小写形式。
-6.toString(char ch)：返回表示指定字符的字符串
 ```
 
 ### 4. ArrayList

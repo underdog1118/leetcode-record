@@ -88,7 +88,7 @@ boolean f = ((x ^ y) > 0); // false
 	& 符号是位运算符中的一种，表示按位与（AND），假设有两个二进制数 a 和 b，它们的每一位分别为 a[i] 和 b[i]，则 a & b 的结果是一个二进制数，其每一位都是 a[i] 和 b[i] 的逻辑 AND 运算的结果。具体来说，如果 a[i] 和 b[i] 都为 1，则结果的第 i 位为 1，否则为 0。
 ```
 
-#### 7）公共最大因数
+#### 7) 公共最大因数
 
 ```java
 public static int gcd(int a, int b) {
@@ -97,6 +97,53 @@ public static int gcd(int a, int b) {
     }
     return gcd(b, a % b);
 }
+```
+
+#### 8) 质数筛法 lc 204
+
+```java
+boolean[] isPrime = new boolean[];
+    public int countPrimes(int n) {
+        boolean[] isPrime = new boolean[n+1];
+        Arrays.fill(isPrime, true);
+        for (int i = 2; i * i <= n; i++) { // i*i范围内即可
+            if (!isPrime[i]) {
+                continue;
+            }
+            for (int j = 2; j*i <= n; j++) { //若i是质数，所有i*k (k>=2的常数)都为和数
+                isPrime[j*i] = false;
+            }
+        }
+
+        int res = 0;
+        for (int i = 2; i < n; i++) {
+            if (isPrime[i]) {
+                res++;
+            }
+        }
+        return res;
+    }
+```
+
+#### 9) 众数Boyer-Moore Voting Algorithm 投票算法 lc 169
+
+```java
+    public int majorityElement(int[] nums) {
+        int target = 0;
+        int count = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            if (count == 0) {
+                target = nums[i];
+                count++;
+            } else if(nums[i] == target) {
+                count++;
+            } else {
+                count--;
+            }
+        }
+        return target;
+    }
 ```
 
 
@@ -1788,6 +1835,10 @@ int[] dijkstra(int start, List<Integer>[] graph) {
 
 ## 15) Dynamic Programming
 
+![image-20230709183412548](images/image-20230709183412548.png)
+
+==State-transition equation (状态转移方程)==
+
 ##### 1) 斐波那契数列举例
 
 ![img](images/fib-20230527114710169.png)
@@ -1805,4 +1856,6 @@ int[] dijkstra(int start, List<Integer>[] graph) {
 
 ##### 3) LIS (最长上升子序列)
 
-##### 4) LCS (最长公共子序列)
+
+
+# 4) LCS (最长公共子序列)
