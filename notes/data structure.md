@@ -163,7 +163,7 @@ String s = str.toString(); //转换成String输出
 str.reverse();  //翻转sb
 ```
 
-##### 3.4 常用api
+##### 3.4.1 String常用api
 
 ```java
 String str = "abc";
@@ -202,7 +202,21 @@ char c3 = (char) (num + '0');
 char c4 = (char) (num2 + 'a');
 ```
 
-### 4. ArrayList
+##### 3.4.2 Character常用api
+
+```java
+//1.isLetter(char ch)：检查字符是否是一个字母（大写或小写）
+char ch = 'A';
+boolean isLetter = Character.isLetter(ch);
+
+2.isDigit(char ch)：检查字符是否是一个数字字符。
+3.isLetterOrDigit(char c) : 检查是否为字母或数字
+4.isUpperCase(char ch)/isLowerCase(char ch)：检查字符是否为大写/小写字母。
+5.toUpperCase(char ch)/toLowerCase(char ch)：将字符转换为大写/小写形式。
+6.toString(char ch)：返回表示指定字符的字符串
+```
+
+### 4. ArrayList / LinkedList
 
 ```java
 //需要返回一个长度不确定的数组时, 动态数组
@@ -242,7 +256,40 @@ public int[ ] get(int[] nums) {
     return res.toArray(new int[nums.length]);
 }
 
+//翻转LinkedList/ArrayList
+Collections.reverse(list);
+
+//只有LinkedList<Integer> list = new LinkedList<>()...可以用 :
+list.addFirst(val1);
+list.addLast(val2);
+//List<Integer> ls = new LinkedList<>()/ArrayList<>() 都不行
 ```
+
+```java
+1. 底层实现：
+ArrayList是基于动态数组实现的，它在内存中以连续的块存储元素，可以通过索引直接访问元素。
+LinkedList则是基于链表实现的，每个元素（节点）都包含一个值和指向下一个节点的引用。它的元素在内存中不一定是连续存储的，因此访问需要通过遍历链表。
+    
+2. 访问效率：
+ArrayList的访问效率较高，因为可以通过索引直接访问元素。平均时间复杂度为O(1)。但是，如果需要在中间或开头插入/删除元素，会导致其他元素的移动，时间复杂度为O(n)。
+LinkedList在访问元素时需要从头开始遍历链表，因此平均时间复杂度为O(n)。但是，在插入/删除元素时，如果已经有对应位置的指针，可以在O(1)时间内完成操作。
+    
+3. 内存占用：
+ArrayList由于是连续存储，它需要预留一定的内存空间，如果存储的元素超过了预留空间，会触发动态扩容，增加额外的内存开销。
+LinkedList则不需要预留连续的内存空间，每个节点可以在内存的任何地方，因此它的内存占用相对较大。
+    
+4. 插入和删除操作：
+ArrayList在插入和删除元素时，可能需要移动其他元素来保持连续存储的特性，所以这些操作的平均时间复杂度为O(n)。
+LinkedList在插入和删除操作时，由于只需要修改节点的引用，时间复杂度可以是O(1)。但是，如果需要找到要插入/删除的节点位置，仍然需要O(n)时间。
+    
+5. 适用场景：
+ArrayList适用于读取和随机访问操作频繁的场景，例如需要频繁根据索引访问元素的情况。
+LinkedList适用于插入和删除操作频繁的场景，例如实现队列或栈，或者需要经常在中间插入/删除元素的情况。
+    
+// 
+```
+
+
 
 ### 5.  List<List<...>>
 
@@ -283,6 +330,8 @@ List<String> track = new LinkedList<>(); //不能用removeLast()
 //必须是
 LinkedList<String> track = new LinkedList<>();
 track.removeLast(); //事先定义LinkedList才能调用的API
+
+
 ```
 
 
@@ -690,8 +739,8 @@ public class TreeNode {
 
 ### 0）高度和深度
 
-- 二叉树节点的深度：指从根节点到该节点的最长简单路径边的条数。
-- 二叉树节点的高度：指从该节点到叶子节点的最长简单路径边的条数。
+- 二叉树节点的深度depth：指从根节点到该节点的最长简单路径边的条数。
+- 二叉树节点的高度height：指从该节点到叶子节点的最长简单路径边的条数。
 - leetcode上按照节点数量来计算
 
 <img src="images/68747470733a2f2f696d672d626c6f672e6373646e696d672e636e2f32303231303230333135353531353635302e706e67.png" alt="110.平衡二叉树2" style="zoom:33%;" />
