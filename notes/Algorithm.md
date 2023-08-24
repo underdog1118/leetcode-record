@@ -234,15 +234,16 @@ while(left + 1 < right){
                 right = mid; //找左极限， 得到target时候把区间往左边压
             }
         }
+      
+     	//** 也可以不写，下面直接return可以得到target应该插入在nums中的索引位置(见顶端)
+ 		//第1个判断：此时 target 比所有数都大(超出右边界）or 比所有数字都小（超出左边界），返回 -1
         
-     //判断target是否存在 nums 中；第1个判断：此时 target 比所有数都大，返回 -1
-	 //第2个判断： nums[right] 是否是target
-     //** 也可以不写，下面直接return可以得到target应该插入在nums中的索引位置(见顶端)
-      if (right == nums.length || nums[right] != target) {
-        	return -1;
-      }else{
-      		return right; //或者left
-      }
+        //其实对于这个算法，left 不可能小于 0。你可以想象一下算法执行的逻辑，left 初始化就是 0，且只可能一直往右走，那么只可能在右侧越界。不过在访问数组索引之前保证索引在左右两端都不越界是一个很好的编程习惯，没有坏处，我这里就同时判断了。这样做的另一个好处是可以让二分的模板更统一，降低你的记忆成本。
+        if (left < 0 || left >= nums.length) {  //可以只写 left >= nums.lenght
+            return -1;
+        }
+        //第2个判断：nums[left] 是否是target
+        return nums[left] == target ? left : -1;
     }
 ```
 
@@ -261,12 +262,20 @@ while(left + 1 < right){
                 left = mid + 1;  //找到target时候，把区间往右侧压缩， 找最右侧=target的元素
             }
         }
+        
         //判断索引是否越界和target是否存在, left的取值范围是 [0, nums.length]，但由于我们最后返回的是 left - 1，所以 left 取值为 0 的时候会造成索引越界
         if (left - 1 < 0 || nums[left - 1] != target) { 
             return -1;
         }else{
             return left - 1; //*** left为第一个>target元素，left-1为最后一个<=target元素,即右边界
         }
+        
+        //或者直接像下面这样写：和左边界一样，降低记忆成本
+        
+        if (left - 1 < 0 || left - 1 >= nums.length) {
+            return -1;
+        }
+        return nums[left-1] == target ? left-1 : -1;        
     }
 ```
 
@@ -602,16 +611,30 @@ int[] nextGreaterElement(int[] nums) {
 // M Queue
 class MonotonicQueue {
 // 双链表，支持头部和尾部增删元素 , 也可以用双端队列Deque<Integer> dq = new LinkedList<>();
-// 维护其中的元素自尾部到头部单调递增
-private LinkedList<Integer> maxq = new LinkedList<>();
+// 维护其中的元素自尾部到头部单调递减
+	private LinkedList<Integer> maxq = new LinkedList<>();
 
 // 在尾部添加一个元素 n，维护 maxq 的单调性质
-public void push(int n) {
+	public void push(int n) {
     // 将前面小于自己的元素都删除
-    while (!maxq.isEmpty() && maxq.getLast() < n) {
-        maxq.pollLast();
+    	while (!maxq.isEmpty() && maxq.getLast() < n) {
+        	maxq.pollLast();
+    	}
+    	maxq.addLast(n);
+	}
+    
+	public int max() {
+    	// 队头的元素肯定是最大的
+    	return maxq.getFirst();
+	}
+    
+    //队头删除元素 n
+    public void pop(int n) {
+        //之所以要判断 n == maxq.getFirst()，是因为我们想删除的队头元素 n 可能已经被「压扁」了，可能已经不存在了，所以这时候就不用删除了：
+        if (n == maxq.getFirst()) {
+            maxq.pollFirst();
+        }
     }
-    maxq.addLast(n);
 }
 ```
 
@@ -1856,6 +1879,25 @@ int[] dijkstra(int start, List<Integer>[] graph) {
 
 ##### 3) LIS (最长上升子序列)
 
+```java
+public int longestIncreasingSubsequence() {
+    
+}
+```
 
+##### 4) LCS (最长公共子序列)
 
-# 4) LCS (最长公共子序列)
+```java
+public int longestCommnonSubsequence() {
+    
+}
+```
+
+##### 5) LCS (最长公共子字符串)
+
+```java
+public int longestCommnonSubstring() {
+    
+}
+```
+

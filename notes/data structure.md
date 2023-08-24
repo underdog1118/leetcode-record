@@ -229,7 +229,18 @@ ArrayList<Integer>[] lst = new ArrayList[length];
 res.add(Element e)； //增加指定元素到列表尾部
 res.addAll(ArrayList aList);  //将指定集合中的所有元素添加到本集合中
 res.clear();	//从列表中删除所有元素.
+
+
 res.remove(int index);	//删除列表中指定位置的元素.
+// ***************0000**************
+// ArrayList和LinkedList有两种remove()方法
+如果List里面装的是Integer, 想要remove掉指定的值的元素:
+
+HashMap<Integer, List<Integer>> map = new HashMap<>();
+map.get(prevColor).remove(Integer.valueOf(key)); // remove(Object o)具体的元素
+map.get(prevColor).remove(key); //remove(int index)某个索引处的元素
+// ***************0000**************
+
 res.get(int index);		//获取列表中指定位置处的元素.
 res.contains(Object o); //如果列表包含指定元素，返回true
 res.isEmpty() //返回true表示链表中没有任何元素
@@ -285,8 +296,13 @@ LinkedList在插入和删除操作时，由于只需要修改节点的引用，�
 5. 适用场景：
 ArrayList适用于读取和随机访问操作频繁的场景，例如需要频繁根据索引访问元素的情况。
 LinkedList适用于插入和删除操作频繁的场景，例如实现队列或栈，或者需要经常在中间插入/删除元素的情况。
+
+ArrayList的add方法的时间复杂度是O(1)或O(n)，具体取决于添加元素的位置。
+在ArrayList的尾部添加元素时，时间复杂度是O(1)，因为ArrayList内部使用的是数组来存储元素，添加元素只需要在数组的尾部插入即可，不需要移动其他元素。因此，在添加元素到ArrayList尾部时，时间复杂度是常数级别的。
+
+在ArrayList的中间或开头添加元素时，时间复杂度是O(n)，因为需要将插入位置后面的所有元素都向后移动一个位置。如果数组已满，还需要将整个数组扩容，复制原有元素到新数组中，这个过程的时间复杂度也是O(n)。
     
-// 
+因此，对于频繁在尾部添加元素的场景，ArrayList是一种非常高效的数据结构，而对于频繁在中间或开头添加元素的场景，LinkedList可能会更加适合，因为它可以在常数时间内在任意位置添加或删除元素。
 ```
 
 
@@ -943,6 +959,10 @@ Arrays.sort(array, (n1,n2)-> {  //防止数据溢出
       if(n1[0]<n2[0]) return -1;
       return 0;
 }); 
+            
+            
+ //看leetcode-record/test000/HeapTest
+注意： 当heap中原来已存在某元素i时，若要再次添加更新过对应参数的i时，应当先remove原本的i，再将i添加到heap中通过规律排序，否则heap会添加两个一样的i元素，无法正确按照要求排序
 ```
 
 # 七. Trie (Prefix tree)
@@ -1361,81 +1381,70 @@ class DoubleList {
     }
 ```
 
-# 七. Trie (Prefix tree) 
+# 十. TreeSet
 
-前缀树/字典树
+<img src="images/image-20230813154110537.png" alt="image-20230813154110537" style="zoom: 50%;" />
 
 ```java
-/* Trie 树节点实现 */
-class TrieNode<V> {
-    V val = null;  // val 存储键对应的值
-    TrieNode<V>[] children = new TrieNode[256]; //children 数组存储指向子节点的指针
-}
-*** TrieNode 中 children 数组的索引是有意义的，代表键中的一个字符。 ***
-    如children[97] is true, --> 存储了一个字符'a'， 其ASCII码为97
- 
+//TreeSet 会自动对元素进行排序。
+TreeSet<Integer> set = new TreeSet<>();
+set.add(1);
+set.remove(1);
+
+//NavigableSet导航方法
+1.
+first() - 返回集合的第一个元素
+last() - 返回集合的最后一个元素
+    
+2. 
+higher(element) - 返回大于指定元素(element)的最小元素。
+lower(element) - 返回小于指定元素(element)的最大元素。
+
+ceiling(element) - 返回大于指定元素(element)的那些元素中的最小元素。如果传递的元素(element)存在于树集中，则返回作为参数传递的元素(element)。
+floor(element) - 返回小于指定元素(element)的元素中最大的元素。如果传递的元素(element)存在于树集中，则返回作为参数传递的元素(element)。
+//注意，可以用Integer接住这些方法得到的值，若为null则说明找不到此种元素
+
+3.
+pollFirst() - 返回并从集合中删除第一个元素
+pollLast() - 返回并从集合中删除最后一个元素
 ```
 
+# 十一.TreeMap
 
-
-特别注意，TrieNode 节点本身只存储 val 字段，并没有一个字段来存储字符，字符是通过子节点在父节点的 children 数组中的索引确定的。
-
-==形象理解就是，Trie 树用「树枝」存储字符串（键），用「节点」存储字符串（键）对应的数据（值)==<img src="images/9.jpeg" alt="img" style="zoom:50%;" />
-
-#### 1）构造trie
+<img src="images/image-20230813154135707.png" alt="image-20230813154135707" style="zoom: 50%;" />
 
 ```java
-class TrieNode {    //lc208 构造trie
-    boolean isEnd;
-    TrieNode[] children = new TrieNode[26];
+//TreeMap 是一个基于红黑树实现的有序映射（键值对）集合，键(key)按照 自然排序 或者 指定的比较器 进行排序
+
+//使用TreeMap时，放入的Key必须实现Comparable接口。String、Integer这些类已经实现了Comparable接口，因此可以直接作为Key使用。作为Value的对象则没有任何要求。
+
+//如果作为Key的class没有实现Comparable接口，那么，必须在创建TreeMap时同时指定一个自定义排序算法：
+public class Main {
+    public static void main(String[] args) {
+        Map<Person, Integer> map = new TreeMap<>(new Comparator<Person>() {
+            public int compare(Person p1, Person p2) {
+                return p1.name.compareTo(p2.name);
+            }
+        });
+        
+        map.put(new Person("Tom"), 1);
+        map.put(new Person("Bob"), 2);
+        map.put(new Person("Lily"), 3);
+        for (Person key : map.keySet()) {
+            System.out.println(key);
+        }
+        // {Person: Bob}, {Person: Lily}, {Person: Tom}
+        System.out.println(map.get(new Person("Bob"))); // 2
+    }
 }
 
-class Trie {
-    public TrieNode root;
-    public Trie() {
-        root = new TrieNode();//默认无参构造器
+class Person {
+    public String name;
+    Person(String name) {
+        this.name = name;
     }
-    
-    public void insert(String word) {
-        TrieNode curr = this.root;
-        for (char c : word.toCharArray()) {
-            int index = c - 'a';
-            //未有过的字符，新建
-            if (curr.children[index] == null) {
-                curr.children[index] = new TrieNode();
-            }
-            //已经有过的字符，遍历往后走
-            curr = curr.children[index];
-        }
-        curr.isEnd = true; //单词结尾标记
-    }
-    
-    public boolean search(String word) {
-        TrieNode curr = this.root;
-        for (char w : word.toCharArray()) {
-            int idx = w - 'a';
-            //word还没走完，其中某个字符没被记录，直接false
-            if (curr.children[idx] == null) {
-                return false;
-            }
-            //往后走
-            curr = curr.children[idx];
-        }
-        return curr.isEnd; //判断word走完后的结尾字符是否之前已经被存储标记
-    }
-    
-    public boolean startsWith(String prefix) {
-        TrieNode curr = this.root;
-        for (char pre : prefix.toCharArray()) {
-            int idx = pre - 'a';
-            //找不到当前前缀字符，false
-            if (curr.children[idx] == null) {
-                return false;
-            }
-            curr = curr.children[idx];
-        }
-        //只要能顺利走完，不需要验证是否isEnd， 因为必然有>=该前缀的字符串被存储过
-        return true;
+    public String toString() {
+        return "{Person: " + name + "}";
     }
 }
 
