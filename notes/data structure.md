@@ -990,7 +990,7 @@ class TrieNode<V> {
 
 ```java
 class TrieNode {    //lc208 构造trie
-    boolean isEnd; //有时候可以替换成其他数据结构,只要能在结束点进行记录/标记即可：String word
+    boolean isEnd; //有时候可以替换成其他数据结构,只要能在结束点进行记录/标记即可：String wordS z
     TrieNode[] children = new TrieNode[26];
     public Trie() {} //默认无参构造器，可以不写
 }
