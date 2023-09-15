@@ -19,6 +19,7 @@ class Function {
     }
     ...
 }
+ 
 
 //调用类时
 Function fuc = new Function(); //用构造器定义一个类的instance实例
