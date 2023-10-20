@@ -1,4 +1,4 @@
-![image-20221009223140796](images/image-20221009223140796.png)	
+​	![image-20221009223140796](images/image-20221009223140796.png)	
 
 ![image-20221009223207538](images/image-20221009223207538.png)
 
@@ -1345,14 +1345,14 @@ class DoubleList {
 ##### 2. Java 的内置类型 `LinkedHashMap`
 
 ```java
- int cap;
+ 	int cap;
     LinkedHashMap<Integer,Integer> cache = new LinkedHashMap<>();
 
     public LRUCache(int capacity) {
-        cap = capacity;
+        this.cap = capacity;
     }
     
-    public int get(int key) {
+    public int get(int key) {  // O(1)
         if (!cache.containsKey(key)) {
             return -1;
         }
@@ -1367,7 +1367,7 @@ class DoubleList {
             return;
         }
         if (cache.size() == cap) {
-            //迭代器找到最久未使用的节点并删除
+            //迭代器找到最久未使用的节点并删除 (迭代器找到的第一个即是lru) => O(1)
             int lruNode = cache.keySet().iterator().next();
             cache.remove(lruNode);
         }

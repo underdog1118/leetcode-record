@@ -373,7 +373,7 @@ void slidingWindow(string s, string t) {
                     count--;
                 }
                 window.put(d, window.getOrDefault(d, 0) - 1);
-            }
+            }	
         }
     }
 }
@@ -1881,24 +1881,78 @@ int[] dijkstra(int start, List<Integer>[] graph) {
 ##### 3) LIS (最长上升子序列)
 
 ```java
-public int longestIncreasingSubsequence() {
-    
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1); //初始化为自身的1
+        int max = 0;
+        for (int i = 0; i < n; i++) {
+            //往前找遇到比当前小的即更新当前dp
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) {
+                    dp[i] = Math.max(dp[i], dp[j]+1);
+                }
+            }
+            //找最长的递增子序列
+            max = Math.max(max, dp[i]);
+        }
+        return max;
+    }
 }
 ```
 
 ##### 4) LCS (最长公共子序列)
 
 ```java
-public int longestCommnonSubsequence() {
-    
+class Solution {
+    public int longestCommonSubsequence(String text1, String text2) {
+        // tc : O(m*n)
+        // sc : O(mn)
+        int m = text1.length();
+        int n = text2.length();
+        int[][] dp = new int[m+1][n+1]; // dp[i][j] : don't have to include i,j character into sub
+        // def : when reach i , j; substring(0,i), substring(0,j) == first i ele in s1 , first j ele in s2
+        for (int i = 1; i < m+1; i++) {
+            for (int j = 1; j < n+1; j++) {
+                // abcde
+                //   2
+                // ace
+                //  1
+                if (text1.charAt(i-1) == text2.charAt(j-1)) {
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+        }
+        return dp[m][n]; 
+    }
 }
 ```
 
 ##### 5) LCS (最长公共子字符串)
 
 ```java
-public int longestCommnonSubstring() {
-    
+public class Solution {
+    public int longestCommonSubstring(String a, String b) {
+        int m = a.length();
+        int n = b.length();
+        //dp[i][j] : have to include i,j char , last index char
+        int[][] dp = new int[m+1][n+1];
+        int len = 0;
+        for (int i = 1; i < m+1; i++) {
+            for (int j = 1; j < n+1; j++) {
+                if (a.charAt(i-1) == b.charAt(j-1)) {
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                } else {
+                    dp[i][j] = 0;
+                }
+                len = Math.max(len, dp[i][j]);
+            }
+        }
+        return len;
+    }
 }
 ```
 
