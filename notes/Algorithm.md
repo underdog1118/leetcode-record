@@ -3,7 +3,8 @@
 #### 1) Design class类型
 
 ```java
-class Function {
+
+public class Function {
     //先在外部定义变量类型
     HashMap<Integer, Integer> map;
     int[] nums;
@@ -15,15 +16,33 @@ class Function {
         random = new Random();
     }
     public boolean add(int k) { //类里的method
-        ...
+        return true;
     }
-    ...
+  
+    public static void main(String[] args) {
+        //调用非static类时
+        Function fuc = new Function(); //用构造器定义一个类的instance实例
+        fuc.add(5); //调用类内部的方法    
+    }
+    
 }
- 
 
-//调用类时
-Function fuc = new Function(); //用构造器定义一个类的instance实例
-fuc.add(5); //调用类内部的方法
+在你的Java代码中，add方法是一个非静态方法，而不是静态方法。静态方法和非静态方法之间有一些区别：
+
+调用方式：
+非静态方法（没有使用static关键字）：这些方法是与对象实例相关联的，只能通过创建类的实例来调用。在你的示例中，你必须首先创建一个Solution类的实例，然后使用该实例调用add方法。例如：
+Function f = new Function(); 
+f.add(5);
+
+静态方法（使用static关键字）：这些方法与类本身相关联，而不是与类的实例相关联。它们可以直接通过类名来调用，而无需创建类的实例。例如：
+Function.add(5);
+或者直接：
+add(5);
+
+访问对象成员：
+
+非静态方法可以访问类的实例变量（成员变量）以及其他非静态方法。
+静态方法不能直接访问类的实例变量，因为它们与特定的实例无关，只能访问静态成员（静态变量和其他静态方法）。
 ```
 
 #### 2) Random生成
