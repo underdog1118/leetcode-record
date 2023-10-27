@@ -765,7 +765,7 @@ public class TreeNode {
 
 **这里前中后，其实指的就是中间节点的遍历顺序**，只要大家记住 前中后序指的就是中间节点的位置就可以了。
 
-看如下中间节点的顺序，就可以发现，中间节点的顺序就是所谓的遍历方式。 递归/迭代
+看如下中间节点的顺序，就可以发现，==中间节点==的顺序就是所谓的遍历方式。 递归/迭代
 
 - 前序遍历：中左右
 - 中序遍历：左中右
@@ -1293,7 +1293,7 @@ class DoubleList {
         return target;
     }
 }
-
+class LRU {
 // 3.LRU cache主体
     // key -> Node(key,val)
     HashMap<Integer, Node> map;
@@ -1339,7 +1339,7 @@ class DoubleList {
         map.put(key, newNode);
         cache.addLast(newNode);
     }
-
+}
 ```
 
 ##### 2. Java 的内置类型 `LinkedHashMap`

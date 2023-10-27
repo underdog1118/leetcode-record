@@ -8,7 +8,7 @@ public class Solution {
   HashMap<Integer, Integer> map;
   int[] nums;
   Random random;
-  static int temp = 0;
+    static int temp = 0;
   public  Solution() { //构造器 Instructor
     //在构造器内初始化
     map = new HashMap<>();

@@ -924,7 +924,7 @@ int BFS(Node start, Node target) {
 
 
 
-## 8. Compare Tree
+## 8. Same/Symmetric Tree
 
 ```java
 //比较两棵树是否相等
