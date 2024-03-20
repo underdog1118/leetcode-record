@@ -1,3 +1,56 @@
+# Git
+
+```
+git init 
+git add.
+git commit -m "first commit"
+git remote add origin http://github......
+git push -u origin main / git push
+```
+
+- `git clone`：将远程仓库克隆到本地。
+- `git add`：将本地文件添加到暂存区。
+- `git commit`：将暂存区中的文件保存到本地仓库中，并创建版本记录。
+- `git push`：将本地仓库中的文件同步到远程仓库中。git push -f origin main
+- `git pull`：将远程仓库中的文件同步到本地仓库中。git pull origin main
+- `git branch`：查看、创建和切换分支。
+- `git merge`：合并两个分支。
+- `git tag`：查看、创建和删除标签。
+- `git log`：查看仓库的版本历史。
+
+##### 1. 回退commit版本：
+
+1. git log 查看历史版本
+2. git reset --hard HEAD^ 删除最后一个版本
+3. git reset --hard + 版本号  恢复删除的版本，版本号为log中的黄色字符串
+
+##### 2. 如何git单独commit单个文件夹
+
+1. option + cmd + c 复制文件夹路径/文件夹拖入terminal自动显示路径
+2. git add + 复制的路径
+3. git commit -m "..."
+4. git push
+
+##### 3. branch操作
+
+查看本地分支： git branch
+
+查看远程分支： git branch -r
+
+创建本地分支： git branch [name] ----注意新分支创建后不会自动切换为当前分支
+
+切换分支： git checkout [name]
+
+创建新分支并立即切换到新分支： git checkout -b [name]
+
+删除分支： git branch -d [name] ---- -d选项只能删除已经参与了合并的分支，对于未有合并的分支是无法删除的。如果想强制删除一个分支，可以使用-D选项
+
+合并分支： git merge [name] ----将名称为[name]的分支与当前分支合并
+
+创建远程分支(本地分支push到远程)： git push origin [name]
+
+删除远程分支： git push origin :heads/[name]
+
 # Mac
 
 
