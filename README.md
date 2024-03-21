@@ -34,7 +34,7 @@ git push -u origin main / git push
 （相当于复制了remote的仓库到本地的xxx分支上
 3.修改或者添加本地代码（部署在硬盘的源文件上）
 4.git diff 查看自己对代码做出的改变
-5.git add 上传更新后的代码至暂存区
+5.git add .上传更新后的代码至暂存区
 6.git commit 可以将暂存区里更新后的代码更新到本地git
 7.git push origin xxx 将本地的xxxgit分支上传至github上的git
 -----------------------------------------------------------
@@ -50,7 +50,7 @@ git push -u origin main / git push
 ----------------------------------------------------------------------------------------------
 远端完成更新后
 1.git branch -d xxx 删除本地的git分支
-2.git pull origin master 再把远端的最新代码拉至本地
+2.git pull origin main 再把远端的最新代码拉至本地
 ```
 
 
