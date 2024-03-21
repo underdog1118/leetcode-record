@@ -6,6 +6,8 @@ TEST 1
 
 TEST 2
 
+Test 3
+
 ```
 git init 
 git add.
