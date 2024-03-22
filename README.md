@@ -22,18 +22,32 @@ git push -u origin main / git push
 ```
 
 - `git clone`：将远程仓库克隆到本地。
+
 - `git add`：将本地文件添加到暂存区。
+
 - `git commit`：将暂存区中的文件保存到本地仓库中，并创建版本记录。
+
 - `git push`：将本地仓库中的文件同步到远程仓库中。git push -f origin main
+
 - `git pull`：将远程仓库中的文件同步到本地仓库中。git pull origin main
+
 - `git branch`：查看、创建和切换分支。
+
 - `git merge`：合并两个分支。
+
 - `git tag`：查看、创建和删除标签。
+
 - `git log`：查看仓库的版本历史。
 
-```
-工作流
+  
 
+  
+
+##### 0. 工作流
+
+- 
+
+```
 1.git clone // 到本地
 2.git checkout -b xxx 切换至新分支xxx
 （相当于复制了remote的仓库到本地的xxx分支上
