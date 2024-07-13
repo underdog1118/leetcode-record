@@ -109,6 +109,12 @@ git push -u origin main / git push
 
 删除远程分支： git push origin :heads/[name]
 
+
+
+# Linux
+
+![Image preview](images/1720886250621.jpeg)
+
 # Mac
 
 

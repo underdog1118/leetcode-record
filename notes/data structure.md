@@ -198,7 +198,7 @@ char c2 = 'b';
 int num2 = c2 - 'a';
 
 //5.把int转换成对应的字符
-char c3 = (char) (num + '0');
+char c3 = (char) (num + '0');  //必须 + '0'， 否则返回Unicode字符 \u0000 到 \u0009
 char c4 = (char) (num2 + 'a');
 ```
 
