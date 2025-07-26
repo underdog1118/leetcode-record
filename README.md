@@ -10,6 +10,8 @@ Test 3
 
 Test 4
 
+Test 6=5
+
 Another Feature in Main
 New Feature
 
