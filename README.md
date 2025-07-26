@@ -115,8 +115,6 @@ git push -u origin main / git push
 
 # Mac
 
-
-
 [复杂度](https://github.com/underdog1118/leetcode-record/blob/main/notes/Time%20and%20Space%20comlexity.md)
 
 
@@ -255,3 +253,7 @@ Ctrl + Shift + F12	切换全屏代码
 
 
 
+## Typora & Obsidian
+
+- https://www.cnblogs.com/23xie/p/18145639
+- 【Obsidian图片（基本上）适配Typora的方法】https://www.bilibili.com/video/BV1AR4y18719?vd_source=0b953d23f7beef8c22a65d13d7ccdd3f

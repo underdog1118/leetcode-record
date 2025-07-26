@@ -358,7 +358,7 @@ track.removeLast(); //事先定义LinkedList才能调用的API
 
 ### 1. 单链表
 
-<img src="images/image-20221106202017751.png" alt="image-20221106202017751" style="zoom: 50%;" />
+![image-20221106202017751](images/image-20221106202017751.png)
 
 所有节点按照顺序排列。 若要查询某个元素，只能从头节点（head node) 开始逐个遍历。 O(n) 。
 
@@ -384,7 +384,7 @@ toAdd.next = pred.next;
 pred.next = toAdd;
 ```
 
-<img src="images/image-20221106203252464.png" alt="image-20221106203252464" style="zoom:50%;" />
+![image-20221106203252464](images/image-20221106203252464.png)
 
 #### 2）delete
 
@@ -400,7 +400,7 @@ size--;
 cur.next = cur.next.nextt
 ```
 
-<img src="images/image-20221106210538619.png" alt="image-20221106210538619" style="zoom:50%;" />
+![image-20221106210538619](images/image-20221106210538619.png)
 
 若要删除head node, 只需要将第二个node赋予成head. 因为head node可以代表整个list
 
@@ -421,7 +421,7 @@ return cur.val;
 
 ### 2. 双链表
 
-<img src="images/image-20221106202035099.png" alt="image-20221106202035099" style="zoom:50%;" />
+![image-20221106202035099](images/image-20221106202035099.png)
 
 ```java
 //初始化双链表
@@ -526,11 +526,11 @@ while (cur != null) {
 
 ### 3. 循环链表
 
-<img src="images/image-20221110011859652.png" alt="image-20221110011859652" style="zoom: 15%;" />
+![image-20221110011859652](images/image-20221110011859652.png)
 
 ### 4. 性能分析
 
-<img src="images/image-20221110012937649.png" alt="image-20221110012937649" style="zoom: 33%;" />
+![image-20221110012937649](images/image-20221110012937649.png)
 
 ### 5. 定义链表
 
@@ -648,9 +648,9 @@ for (int i = 0; i < nums.length; i++) {
 
 #### 1) Design the key
 
-<img src="images/image-20221218004338997.png" alt="image-20221218004338997" style="zoom: 52%;" />
+![image-20221218004338997](images/image-20221218004338997.png)
 
-<img src="images/image-20221218004406956.png" alt="image-20221218004406956" style="zoom: 50%;" />
+![image-20221218004406956](images/image-20221218004406956.png)
 
 数独游戏9 x 9大方块中有9个3 x 3个小方块
 
@@ -660,7 +660,7 @@ for (int i = 0; i < nums.length; i++) {
 
 ==First-in-First-out==
 
-<img src="images/image-20221222221002524.png" alt="image-20221222221002524" style="zoom:50%;" />
+![image-20221222221002524](images/image-20221222221002524.png)
 
 ```java
 public class Main {
@@ -684,7 +684,7 @@ public class Main {
 }
 ```
 
-<img src="images/7191.1647175386.jpg" alt="Time and space complexity of queues. Source: Devopedia 2022." style="zoom:50%;" />
+![Time and space complexity of queues. Source: Devopedia 2022.](images/7191.1647175386.jpg)
 
 #### 1.1） Deque 双端队列 Java
 
@@ -703,7 +703,7 @@ public class Main {
 
 ==Last-in-First-out==
 
-<img src="images/image-20221225163036799.png" alt="image-20221225163036799" style="zoom:50%;" />
+![image-20221225163036799](images/image-20221225163036799.png)
 
 ```java
 public class Main {
@@ -759,7 +759,7 @@ public class TreeNode {
 - 二叉树节点的高度height：指从该节点到叶子节点的最长简单路径边的条数。
 - leetcode上按照节点数量来计算
 
-<img src="images/68747470733a2f2f696d672d626c6f672e6373646e696d672e636e2f32303231303230333135353531353635302e706e67.png" alt="110.平衡二叉树2" style="zoom:33%;" />
+![110.平衡二叉树2](images/68747470733a2f2f696d672d626c6f672e6373646e696d672e636e2f32303231303230333135353531353635302e706e67.png)
 
 ### 1) DFS : depth-first-search 深度优先遍历
 
@@ -771,7 +771,7 @@ public class TreeNode {
 - 中序遍历：左中右
 - 后序遍历：左右中
 
-<img src="images/image-20230104155808279.png" alt="image-20230104155808279" style="zoom:40%;" />
+![image-20230104155808279](images/image-20230104155808279.png)
 
 ### 2）BFS: breadth-first-search 广度优先遍历
 
@@ -781,13 +781,13 @@ public class TreeNode {
 
 如果一棵二叉树只有度为0的结点和度为2的结点，并且度为0的结点在同一层上，则这棵二叉树为满二叉树。
 
-<img src="images/image-20230113122831017.png" alt="image-20230113122831017" style="zoom:30%;" />
+![image-20230113122831017](images/image-20230113122831017.png)
 
 ### 4) Complete Binary Tree 完全二叉树
 
 它是一棵空树或者它的叶子节点只出在最后两层，若最后一层不满则叶子节点只在最左侧。若最底层为第 h 层，则该层包含 1~ 2^(h-1)  个节点。
 
-<img src="images/image-20230113123226508.png" alt="image-20230113123226508" style="zoom:50%;" />
+![image-20230113123226508](images/image-20230113123226508.png)
 
 ### 5) Binary  Search Tree 二叉搜索树
 
@@ -799,7 +799,7 @@ public class TreeNode {
 
 ==中序遍历==在BST中会得到一个==升序==的结果， 所以很常用
 
-<img src="images/image-20230113130449139.png" alt="image-20230113130449139" style="zoom:35%;" />
+![image-20230113130449139](images/image-20230113130449139.png)
 
 ```java
 void BST(TreeNode root, int target) {
@@ -818,7 +818,7 @@ void BST(TreeNode root, int target) {
 
 它是一棵空树或它的左右两个子树的高度差的绝对值不超过1，并且左右两个子树都是一棵平衡二叉树。
 
-<img src="images/image-20230113130810808.png" alt="image-20230113130810808" style="zoom:40%;" />
+![image-20230113130810808](images/image-20230113130810808.png)
 
 # 六. Priority Queue & Heap
 
@@ -832,7 +832,7 @@ void BST(TreeNode root, int target) {
 
 ==最大堆：1. 必定是完全二叉树 ； 2. 每个节点的val >= 子节点们的val==
 
-<img src="images/image-20230217021912808.png" alt="image-20230217021912808" style="zoom:40%;" />
+![image-20230217021912808](images/image-20230217021912808.png)
 
 ```java
 // 父节点的索引
@@ -854,7 +854,7 @@ int right(int root) {
 在一个完全二叉树中，编号为i的节点的左儿子编号为2i+1，右儿子编号为2i+2，父节点编号为(i-1)/2。
 ```
 
-<img src="images/image-20230217235616849.png" alt="image-20230217235616849" style="zoom:40%;" />
+![image-20230217235616849](images/image-20230217235616849.png)
 
 ### 2) Swim & Sink
 
@@ -918,6 +918,13 @@ public Key delete(Key e) {
 ```
 
 ### 4) Java中的heap
+
+```
+char* block = calloc(2048, 1); // Correctly allocate 2048 bytes
+if (block != NULL) {
+    memset(block, 0xFF, 2048); // Set the allocated memory to 0xFF
+}
+```
 
 Java里的heap默认是==升序的最小堆==，可直接用pq定义
 
@@ -984,7 +991,7 @@ class TrieNode<V> {
 
 特别注意，TrieNode 节点本身只存储 val 字段，并没有一个字段来存储字符，字符是通过子节点在父节点的 children 数组中的索引确定的。
 
-==形象理解就是，Trie 树用「树枝」存储字符串（键），用「节点」存储字符串（键）对应的数据（值)==<img src="images/9.jpeg" alt="img" style="zoom:50%;" />
+==形象理解就是，Trie 树用「树枝」存储字符串（键），用「节点」存储字符串（键）对应的数据（值)==![img](images/9.jpeg)
 
 #### 1）构造trie
 
@@ -1050,7 +1057,7 @@ class Trie {
 
 #### 1) 定义
 
-<img src="images/image-20230408161234370.png" alt="image-20230408161234370" style="zoom:80%;" />
+![image-20230408161234370](images/image-20230408161234370.png)
 
 ```java
 /* 图节点的逻辑结构 */
@@ -1080,7 +1087,7 @@ class Vertex {
 
 #### 2）邻接表/矩阵 Adjancey list/matrix
 
-<img src="images/image-20230408161742240.png" alt="image-20230408161742240" style="zoom:50%;" />
+![image-20230408161742240](images/image-20230408161742240.png)
 
 ```java
 1.有向图
@@ -1129,7 +1136,7 @@ int[][] matrix;
 
 **用两种颜色将图中的所有顶点着色，且使得任意一条边的两个端点的颜色都不相同， 即为二分图**
 
-<img src="images/1.jpg" alt="img" style="zoom: 33%;" />
+![img](images/1.jpg)
 
 #### 4） 并查集 Union-Find (Disjoint-set)
 
@@ -1150,7 +1157,7 @@ class UF {
 
 **2. 这样，如果节点 `p` 和 `q` 连通的话，它们一定拥有相同的根节点**
 
-<img src="images/4.jpg" alt="img" style="zoom:50%;" />
+![img](images/4.jpg)
 
 `connected` 和 `union` 中的复杂度都是 `find` 函数造成的，三者复杂度都与find一致。
 
@@ -1164,7 +1171,7 @@ class UF {
 
 头重脚轻的情况：
 
-<img src="images/7.jpg" alt="img" style="zoom:50%;" />
+![img](images/7.jpg)
 
 ==解决方法是额外使用一个 `size` 数组，记录每棵树包含的节点数，称为<重量>==
 
@@ -1190,7 +1197,7 @@ public int find(int x) {
 }
 ```
 
-<img src="images/10.jpeg" alt="img" style="zoom:30%;" />
+![img](images/10.jpeg)
 
 ##### 4）最终写法
 
@@ -1379,11 +1386,97 @@ class LRU {
         cache.remove(key);
         cache.put(key, val);
     }
+
+
 ```
+
+##### 3.手动建ListNode，运用Map, 构造双向链表
+
+```java
+//链表节点
+class ListNode {
+    int key;
+    int val;
+    ListNode next;
+    ListNode prev;
+
+    public ListNode(int key, int val) {
+        this.key = key;
+        this.val = val;
+    }
+}
+
+class LRUCache {
+    int capacity;
+    Map<Integer, ListNode> dic;
+    ListNode head;
+    ListNode tail;
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        dic = new HashMap<>();
+        head = new ListNode(-1, -1);
+        tail = new ListNode(-1, -1);
+        head.next = tail;
+        tail.prev = head;
+    }
+  
+    public void add(ListNode node) {  //add to the back of the double ll
+        ListNode previousEnd = tail.prev;
+        previousEnd.next = node;
+        node.prev = previousEnd;
+        node.next = tail;
+        tail.prev = node;
+    }
+
+    public void remove(ListNode node) { // remove any node
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    public int get(int key) {
+        if (!dic.containsKey(key)) {
+            return -1;
+        }
+
+        ListNode node = dic.get(key);
+        remove(node);
+        add(node);
+        return node.val;
+    }
+
+    public void put(int key, int value) {
+        if (dic.containsKey(key)) {  //delete oldNode
+            ListNode oldNode = dic.get(key);
+            remove(oldNode);
+        }
+
+        ListNode node = new ListNode(key, value); //put to the back of list(most recent)
+        dic.put(key, node);
+        add(node);
+
+        if (dic.size() > capacity) { // delete the first node (least recent)
+            ListNode nodeToDelete = head.next;
+            remove(nodeToDelete);
+            dic.remove(nodeToDelete.key);
+        }
+    }
+
+
+}
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */	
+```
+
+
 
 # 十. TreeSet
 
-<img src="images/image-20230813154110537.png" alt="image-20230813154110537" style="zoom: 50%;" />
+![image-20230813154110537](images/image-20230813154110537.png)
 
 ```java
 //TreeSet 会自动对元素进行排序。
@@ -1411,7 +1504,7 @@ pollLast() - 返回并从集合中删除最后一个元素
 
 # 十一.TreeMap
 
-<img src="images/image-20230813154135707.png" alt="image-20230813154135707" style="zoom: 50%;" />
+![image-20230813154135707](images/image-20230813154135707.png)
 
 ```java
 //TreeMap 是一个基于红黑树实现的有序映射（键值对）集合，键(key)按照 自然排序 或者 指定的比较器 进行排序

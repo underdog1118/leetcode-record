@@ -1,4 +1,10 @@
-## **leetcode常见技巧
+
+
+## 算法图解 :
+
+ https://visualgo.net/en
+
+## leetcode常见技巧
 
 #### 1) Design class类型
 
@@ -174,11 +180,11 @@ O(logN)
 
 Sorted
 
-<img src="images/image-20221107183416041.png" alt="image-20221107183416041" style="zoom: 67%;" />
+![image-20221107183416041](images/image-20221107183416041.png)
 
-<img src="images/image-20221011002052582.png" alt="image-20221011002052582" style="zoom: 50%;" />
+![image-20221011002052582](images/image-20221011002052582.png)
 
-<img src="images/image-20221011002102084.png" alt="image-20221011002102084" style="zoom:50%;" />
+![image-20221011002102084](images/image-20221011002102084.png)
 
 ```java
 int[] nums = new int[]{};
@@ -299,7 +305,7 @@ while(left + 1 < right){
     }
 ```
 
-<img src="images/image-20230226175307830.png" alt="image-20230226175307830" style="zoom: 33%;" />
+![image-20230226175307830](images/image-20230226175307830.png)
 
 ```java
 // 上述两种找左右边界最后的判断是否存在该target，也可以在开始的时候就判断，最后就不用再判断直接return即可
@@ -602,7 +608,7 @@ public int[] result() {
 
 ## 6. Monotonic Stack & Queue
 
-<img src="images/image-20221229023833460.png" alt="image-20221229023833460" style="zoom:20%;" />
+![image-20221229023833460](images/image-20221229023833460.png)
 
 ```java
 //M stack : 从左往右看，找第一个能看到的比自己高的人
@@ -951,11 +957,11 @@ public boolean isSameTree(TreeNode n1, TreeNode n2) {
 
 2、基数排序、冒泡排序、直接插入排序、折半插入排序、归并排序**是稳定**的排序算法。
 
-<img src="images/640" alt="640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" style="zoom:60%;" />
+![640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1](images/640)
 
 #### 1) MergeSort
 
-<img src="images/912_fig4.gif" alt="fig4" style="zoom:50%;" />
+![fig4](images/912_fig4.gif)
 
 ```java
 // tc : O(N*logN) logN层二叉树，每层N个元素 ; sc : O(N) temp长度和nums一致
@@ -1000,11 +1006,50 @@ class Solution {
 }
 ```
 
+```java
+//Solution 2: 递归解决
+public class MergeSort {
+
+  public static void mergeSort(int[] arr) {
+    int n = arr.length;
+    if (n <= 1) {  //base case，终止条件
+      return;
+    }
+    int mid = n / 2;
+
+    int[] Left = Arrays.copyOfRange(arr, 0, mid);
+    int[] Right = Arrays.copyOfRange(arr, mid, n);
+
+    mergeSort(Left);
+    mergeSort(Right);
+
+    int i = 0, j = 0, k = 0;
+    while (i < Left.length && j < Right.length) {
+      if (Left[i] < Right[j]) {
+        arr[k] = Left[i++];
+      } else {
+        arr[k] = Right[j++];
+      }
+      k++;
+    }
+
+    while (i < Left.length) {
+      arr[k++] = Left[i++];
+    }
+    while (j < Right.length) {
+      arr[k++] = Right[j++];
+    }
+  }
+}
+```
+
+
+
 #### 2) Quick Sort
 
-<img src="images/image-20230225184156312.png" alt="image-20230225184156312" style="zoom:40%;" />
+![image-20230225184156312](images/image-20230225184156312.png)
 
-<img src="images/912_fig1.gif" alt="fig1" style="zoom:50%;" />
+![fig1](images/912_fig1.gif)
 
 ```java
 // 最佳情况： tc - O(NlogN), sc - O(logN)  ；
@@ -1027,7 +1072,7 @@ class Solution {
 
     public int randomPartition(int[] nums, int l, int r) {  //代替洗牌算法
          int i = new Random().nextInt(r-l+1) + l;  //随机选取一个[l,r]的数与r交换洗牌， 
-         swap(nums, r, i); //交换r和i，这样在partition中 pivot = nums[r] 不再必定是最右侧元素，
+         swap(nums, r, i); //交换r和i，这样在partition中 pivot = nums[r] 不再必定是最右侧元素
         			//而是一个随机的pivot，减少了O(n^2)的可能性，把期望带向O(nlogN)
          return partition(nums, l ,r);  //可以直接和下面一个方法合并成同一个
     }
@@ -1237,6 +1282,90 @@ class Solution {
 }
 ```
 
+#### 8) Radix Sort
+
+```java
+import java.io.*;
+import java.util.*;
+
+class Radix {
+
+    // A utility function to get maximum value in arr[]
+    static int getMax(int arr[], int n)
+    {
+        int mx = arr[0];
+        for (int i = 1; i < n; i++)
+            if (arr[i] > mx)
+                mx = arr[i];
+        return mx;
+    }
+
+    // A function to do counting sort of arr[] according to
+    // the digit represented by exp.
+    static void countSort(int arr[], int n, int exp)
+    {
+        int output[] = new int[n]; // output array
+        int i;
+        int count[] = new int[10];
+        Arrays.fill(count, 0);
+
+        // Store count of occurrences in count[]
+        for (i = 0; i < n; i++)
+            count[(arr[i] / exp) % 10]++;
+
+        // Change count[i] so that count[i] now contains
+        // actual position of this digit in output[]
+        for (i = 1; i < 10; i++)
+            count[i] += count[i - 1];
+
+        // Build the output array
+        for (i = n - 1; i >= 0; i--) {
+            output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+            count[(arr[i] / exp) % 10]--;
+        }
+
+        // Copy the output array to arr[], so that arr[] now
+        // contains sorted numbers according to current
+        // digit
+        for (i = 0; i < n; i++)
+            arr[i] = output[i];
+    }
+
+    // The main function to that sorts arr[] of
+    // size n using Radix Sort
+    static void radixsort(int arr[], int n)
+    {
+        // Find the maximum number to know number of digits
+        int m = getMax(arr, n);
+
+        // Do counting sort for every digit. Note that
+        // instead of passing digit number, exp is passed.
+        // exp is 10^i where i is current digit number
+        for (int exp = 1; m / exp > 0; exp *= 10)
+            countSort(arr, n, exp);
+    }
+
+    // A utility function to print an array
+    static void print(int arr[], int n)
+    {
+        for (int i = 0; i < n; i++)
+            System.out.print(arr[i] + " ");
+    }
+
+    // Main driver method
+    public static void main(String[] args)
+    {
+        int arr[] = { 170, 45, 75, 90, 802, 24, 2, 66 };
+        int n = arr.length;
+
+        // Function Call
+        radixsort(arr, n);
+        print(arr, n);
+    }
+}
+
+```
+
 
 
 ## 10. LCA (lowest common ancestor)
@@ -1322,7 +1451,7 @@ def backtrack(路径, 选择列表):
         撤销选择
 ```
 
-<img src="images/5.jpg" alt="img" style="zoom:33%;" />
+![img](images/5.jpg)
 
 #### 1) Permutation 排列
 
@@ -1459,7 +1588,7 @@ void backtrack(int[] nums) {
 
 ## 14) Graph
 
-#### 1）DFS Travesal
+#### 1) DFS Travesal
 
 1. 多叉树 （N-ary Tree)
 
@@ -1477,7 +1606,7 @@ void traverse(TreeNode root) {
 
 2. 图 （区别在于：图包含环，多叉树无，所以就要一个 `visited` 数组进行辅助）
 
-<img src="images/1-20230416224724399.gif" alt="img" style="zoom:40%;" />
+![img](images/1-20230416224724399.gif)
 
 ```java
 // 记录被遍历过的节点  ** 一般可能有环的图才用visited, 无环图不需要
@@ -1512,7 +1641,7 @@ void backtrack(TreeNode root) {
 }
 ```
 
-#### 2）BFS Travesal
+#### 2) BFS Travesal
 
 ==优势：快速找到图中两节点之间的最短路径== （所有edges有相等和正数的权重）
 
@@ -1547,9 +1676,9 @@ while (!queue.isEmpty()) {
 }
 ```
 
-#### 3）Topological sorting
+#### 3) Topological sorting
 
-<img src="images/399159-20151229144326901-1530781288.png" alt="img" style="zoom: 50%;" />
+![img](images/399159-20151229144326901-1530781288.png)
 
 **直观地说就是，让你把一幅图「拉平」，而且这个「拉平」的图里面，所有箭头方向都是一致的**。
 
@@ -1648,7 +1777,7 @@ void traverse(Graph graph, int s) {
 2.存储入度需要 O（V）; queue需要 O(V)
 ```
 
-#### 4）Union-Find 并查集
+#### 4) Union-Find 并查集
 
 ```java
 class UF {
@@ -1700,11 +1829,11 @@ class UF {
 }
 ```
 
-#### 5）Kruskal Minimum Spanning Tree
+#### 5) Kruskal Minimum Spanning Tree
 
 最小生成树。**「树」和「图」的根本区别：树不会包含环，图可以包含环**。
 
-<img src="images/1.png" alt="img" style="zoom:33%;" />
+![img](images/1.png)
 
 **所有可能的生成树中，权重和最小的那棵生成树就叫「最小生成树」**。 上图右侧<左侧
 
@@ -1718,7 +1847,7 @@ Kruskal算法：（贪心）O(ElogE)
 
 **Prim 算法也使用贪心思想来让生成树的权重尽可能小**，也就是==切分定理==
 
-「切分」这个术语其实很好理解，就是将一幅图分为两个**不重叠且非空**的节点集合：<img src="images/1.jpeg" alt="img" style="zoom:50%;" />
+「切分」这个术语其实很好理解，就是将一幅图分为两个**不重叠且非空**的节点集合：![img](images/1.jpeg)
 
 「切分定理」：**对于任意一种「切分」，其中权重最小的那条「横切边」一定是构成最小生成树的一条边**。
 
@@ -1805,7 +1934,7 @@ class Prim {
 
 ```
 
-#### 7）Dijkstra 算法
+#### 7) Dijkstra 算法
 
 ```java
 class State {
@@ -1876,9 +2005,17 @@ int[] dijkstra(int start, List<Integer>[] graph) {
 
 ```
 
-## 15) Dynamic Programming
+#### 8) Bellman-Ford
 
-![image-20230709183412548](images/image-20230709183412548.png)
+Bellman-Ford算法是一种基于逐次逼近思想进行最短路径求解的算法。其可以被应用在带负权的有向图中，Bellman-ford 算法比dijkstra算法更具普遍性，因为它对边没有要求，**可以处理负权边与负权回路**。缺点是时间复杂度过高，高达O(VE), V为顶点数，E为边数。
+
+其核心思想为：对于任意一个具有n个节点的图 𝐺 ，任意两点之间的最短路径至多包含 𝑛−1 条边。因此我们可以反复通过对边的松弛来得到当前图的最短路径。
+
+也就是说：第1轮在对所有的边进行松弛后，得到的是源点最多经过一条边到达其他顶点的最短距离；第2轮在对所有的边进行松弛后，得到的是源点最多经过两条边到达其他顶点的最短距离；第3轮在对所有的边进行松弛后，得到的是源点最多经过一条边到达其他顶点的最短距离……
+
+> 松弛操作的含义是更新节点之间的最短距离。
+
+## 15) Dynamic Programming
 
 ==State-transition equation (状态转移方程)==
 

@@ -120,7 +120,7 @@ public class Child extends Parent {
 
 ## 5) Abstract, Interface
 
-<img src="images/image-20230126002049305.png" alt="image-20230126002049305" style="zoom:40%;" />
+![image-20230126002049305](images/image-20230126002049305.png)
 
 ## 6) ADT
 
@@ -164,7 +164,7 @@ List<E>
 • ListIterator<E> listIterator();
 ```
 
-<img src="images/image-20230203185314661.png" alt="image-20230203185314661" style="zoom:60%;" />
+![image-20230203185314661](images/image-20230203185314661.png)
 
 ## 8）Java Collections
 
@@ -290,7 +290,7 @@ public class List<T> {
 2.1 或者在intellij中选中文件点Run->Edit Configurations->手动输入parameters: arg1; arg2; arg3
 ```
 
-<img src="images/image-20230329114441587.png" alt="image-20230329114441587" style="zoom:50%;" />
+![image-20230329114441587](images/image-20230329114441587.png)
 
 
 
@@ -413,19 +413,19 @@ Object-oriented design seeks to maximize cohesion, while minimizing coupling
 
 * Behavioral patterns - focus on improving or streamlining communication between objects
 
-<img src="images/image-20230419130607469.png" alt="image-20230419130607469" style="zoom:50%;" />
+![image-20230419130607469](images/image-20230419130607469.png)
 
 §问题：在每个Race子类中重新实现构造函数，以使用不同的Bicycle子类
 
 §解决方案：使用Factory method来避免依赖特定的新类型Constructor中的Bicycle
 
-<img src="images/image-20230419130726326.png" alt="image-20230419130726326" style="zoom: 33%;" />
+![image-20230419130726326](images/image-20230419130726326.png)
 
-<img src="images/image-20230419130747070.png" alt="image-20230419130747070" style="zoom:33%;" />
+![image-20230419130747070](images/image-20230419130747070.png)
 
 ## 17） MVC
 
-<img src="images/image-20230424023257491.png" alt="image-20230424023257491" style="zoom:33%;" />
+![image-20230424023257491](images/image-20230424023257491.png)
 
 * Model – typically talks to data source to retrieve and store data
 
@@ -461,7 +461,7 @@ int total = IntStream.rangeClosed(1, 20)
 					 .sum();
 ```
 
-<img src="images/image-20230424164525414.png" alt="image-20230424164525414" style="zoom: 33%;" />
+![image-20230424164525414](images/image-20230424164525414.png)
 
 
 
